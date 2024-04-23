@@ -45,7 +45,7 @@ Limitations
 This project is still in a very early development stage.
 
 List of known limitations:
-- parsing from strings
-- parsing or rendering to DASH
-- fully rendering to HLS
-- parsing of all attributes from HLS
+    * parsing from strings
+    * parsing or rendering to DASH
+    * full mapping to HLS
+    * parsing of all attributes from HLS
