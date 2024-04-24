@@ -1,9 +1,9 @@
 CmafHam
 =======
 
-Python implementation of an HLS/DASH parser for CMAF encoded files, based on the `CMAF`_ Hypothetical Application Model(ISO/IEC 23000-19).
+Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF `Hypothetical Application Model`_(ISO/IEC 23000-19) and the `DASH HLS Interoperability Specification`_(CTA-5005-A).
 
-Inspired by the MonteVideo Summer Camp `project`_ for the Common Media Library.
+Inspired by the `MonteVideo Summer Camp`_ CMAF HAM `project`_ for the Common Media Library.
 
 Credit to the `m3u8`_ and `mpegdash`_ libraries for parsing and rendering.
 
@@ -29,6 +29,7 @@ To load a HLS or DASH manifest from a uri/url use the `load` function.
     # could also use local file "/path/to/manifest.m3u8"
     ham_obj = cmafham.load(hls_url)
     print(ham_obj.__dict__)
+
 
 Creating manifest files
 -----------------------
@@ -59,8 +60,9 @@ List of known limitations:
     * Fully rendering to HLS.
     * Parsing of all attributes from HLS.
 
-.. _CMAF: https://mpeg.chiariglione.org/standards/mpeg-a/common-media-application-format/text-isoiec-cd-23000-19-common-media-application
+.. _Hypothetical Application Model: https://mpeg.chiariglione.org/standards/mpeg-a/common-media-application-format/text-isoiec-cd-23000-19-common-media-application
+.. _DASH HLS Interoperability Specification: https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf
+.. _MonteVideo Summer Camp: https://www.youtube.com/playlist?list=PLfXb5yywZ6rd0TKFZXNe-BUv22aMH5eGp
+.. _project: https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham
 .. _m3u8: https://github.com/globocom/m3u8
 .. _mpegdash: https://github.com/sangwonl/python-mpegdash/tree/master
-.. _cta: https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf
-.. _project: https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham
