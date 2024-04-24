@@ -3,8 +3,12 @@ CmafHam
 
 Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF Hypothetical Application Model(ISO/IEC 23000-19).
 
+Credit to the `m3u8`_ and `mpegdash`_ libraries for parsing and rendering.
+.. _m3u8: https://github.com/globocom/m3u8
+.. _mpegdash: https://github.com/sangwonl/python-mpegdash/tree/master
+
 TODO: include more details, and use cases.
-TODO: include credits to the summer camp, and the parsing libraries
+TODO: include credits to the summer camp
 
 Documentation
 =============
@@ -15,19 +19,19 @@ Loading from a manifest
 To load a HLS or DASH manifest from a uri/url use the `load` function.
 
 .. code-block:: python
+    
     import cmafham
 
-    hls_uri = "/path/to/manifest.m3u8"
     hls_url = "http://videoserver.com/manifest.m3u8"
-    ham_obj = cmafham.load(hls_uri)
-    # this creates the 'HAM' object
-    # that contains the all three object representations of the media
+    # could also use local file "/path/to/manifest.m3u8"
+    ham_obj = cmafham.load(hls_url)
     print(ham_obj.__dict__)
 
 Creating manifest files
 -----------------------
 
 .. code-block:: python
+    
     import cmafham
 
     ham_obj = cmafham.load("http://videoserver.com/manifest.m3u8")
@@ -42,10 +46,12 @@ Creating manifest files
 Limitations
 ===========
 
-This project is still in a very early development stage.
+This project is still in a very early stage of development and is subject to change frequently.
+
+Due to the natural limitations of the interoperability of DASH and HLS there are some features and attributes that will be lost in the process. Especially features such as encryption, which are not covered in the CMAF spec.
 
 List of known limitations:
-    * parsing from strings
-    * parsing or rendering to DASH
-    * full mapping to HLS
-    * parsing of all attributes from HLS
+    * Parsing HLS or DASH from strings
+    * DASH parsing or rendering.
+    * Fully rendering to HLS.
+    * Parsing of all attributes from HLS.
