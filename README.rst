@@ -1,7 +1,7 @@
 CmafHam
 =======
 
-Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF `Hypothetical Application Model`_ (ISO/IEC 23000-19) and the `DASH HLS Interoperability Specification`_ (CTA-5005-A).
+Python implementation of a HLS/DASH parser for CMAF encoded files, based on the `CMAF`_ 'Hypothetical Application Model' (ISO/IEC 23000-19) and the `DASH HLS Interoperability Specification`_ (CTA-5005-A).
 
 Inspired by the `MonteVideo Tech Summer Camp`_ CMAF HAM `project`_ for the `Common Media Library`_.
 
@@ -60,7 +60,7 @@ List of known limitations:
     * Fully rendering to HLS.
     * Parsing of all attributes from HLS.
 
-.. _Hypothetical Application Model: https://mpeg.chiariglione.org/standards/mpeg-a/common-media-application-format/text-isoiec-cd-23000-19-common-media-application
+.. _CMAF: https://mpeg.chiariglione.org/standards/mpeg-a/common-media-application-format/text-isoiec-cd-23000-19-common-media-application
 .. _DASH HLS Interoperability Specification: https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf
 .. _MonteVideo Summer Camp: https://www.youtube.com/playlist?list=PLfXb5yywZ6rd0TKFZXNe-BUv22aMH5eGp
 .. _project: https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham
