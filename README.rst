@@ -1,9 +1,9 @@
 CmafHam
 =======
 
-Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF `Hypothetical Application Model`_(ISO/IEC 23000-19) and the `DASH HLS Interoperability Specification`_(CTA-5005-A).
+Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF `Hypothetical Application Model`_ (ISO/IEC 23000-19) and the `DASH HLS Interoperability Specification`_ (CTA-5005-A).
 
-Inspired by the `MonteVideo Summer Camp`_ CMAF HAM `project`_ for the Common Media Library.
+Inspired by the `MonteVideo Tech Summer Camp`_ CMAF HAM `project`_ for the `Common Media Library`_.
 
 Credit to the `m3u8`_ and `mpegdash`_ libraries for parsing and rendering.
 
@@ -52,7 +52,7 @@ Limitations
 
 This project is still in a very early stage of development and is subject to change frequently.
 
-Due to the natural limitations of the interoperability of DASH and HLS there are some features and attributes that will be lost in the process. Especially features such as encryption, which are not covered in the CMAF spec.
+Currently due to the limitations of the interoperability between DASH and HLS there are some features and attributes that will be lost in the process. Especially features unique to HLS or DASH, or which are not covered in the CMAF spec.
 
 List of known limitations:
     * Parsing HLS or DASH from strings
@@ -64,5 +64,6 @@ List of known limitations:
 .. _DASH HLS Interoperability Specification: https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf
 .. _MonteVideo Summer Camp: https://www.youtube.com/playlist?list=PLfXb5yywZ6rd0TKFZXNe-BUv22aMH5eGp
 .. _project: https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham
+.. _Common Media Library: https://github.com/streaming-video-technology-alliance/common-media-library
 .. _m3u8: https://github.com/globocom/m3u8
 .. _mpegdash: https://github.com/sangwonl/python-mpegdash/tree/master
