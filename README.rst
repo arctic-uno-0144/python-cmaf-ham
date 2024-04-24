@@ -1,7 +1,7 @@
 CmafHam
 =======
 
-Python implementation of a HLS/DASH parser for CMAF encoded files, based on the `CMAF`_ Hypothetical Application Model(ISO/IEC 23000-19).
+Python implementation of an HLS/DASH parser for CMAF encoded files, based on the `CMAF`_ Hypothetical Application Model(ISO/IEC 23000-19).
 
 Inspired by the MonteVideo Summer Camp `project`_ for the Common Media Library.
 
