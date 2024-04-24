@@ -4,10 +4,10 @@ CmafHam
 Python implementation of a HLS/DASH parser for CMAF encoded files, based on the CMAF Hypothetical Application Model(ISO/IEC 23000-19).
 
 Credit to the `m3u8`_ and `mpegdash`_ libraries for parsing and rendering.
-.. _m3u8: https://github.com/globocom/m3u8
-.. _mpegdash: https://github.com/sangwonl/python-mpegdash/tree/master
+
 
 TODO: include more details, and use cases.
+
 TODO: include credits to the summer camp
 
 Documentation
@@ -55,3 +55,7 @@ List of known limitations:
     * DASH parsing or rendering.
     * Fully rendering to HLS.
     * Parsing of all attributes from HLS.
+
+
+.. _m3u8: https://github.com/globocom/m3u8
+.. _mpegdash: https://github.com/sangwonl/python-mpegdash/tree/master
