@@ -48,7 +48,7 @@ Limitations
 
 This project is still in a very early stage of development and is subject to change frequently.
 
-Due to the natural limitations of the interoperability of DASH and HLS there are some features and attributes that will be lost in the process. Especially features such as encryption, which are not covered in the CMAF spec.
+Due to the natural limitations of the interoperability of DASH and HLS there are some features and attributes that will be lost in the process. Since there are features which are not covered in the CMAF spec.
 
 List of known limitations:
     * Parsing HLS or DASH from strings
