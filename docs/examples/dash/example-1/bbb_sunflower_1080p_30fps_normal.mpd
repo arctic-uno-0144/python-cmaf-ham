@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:cenc="urn:mpeg:cenc:2013" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd" type="static" minBufferTime="PT30S" profiles="urn:mpeg:dash:profile:isoff-main:2011" mediaPresentationDuration="PT10M34.533S">
+  <Period start="PT0S" duration="PT10M34.533S" id="1">
+    <AdaptationSet mimeType="video/mp4" frameRate="30000/1001" segmentAlignment="true" subsegmentAlignment="true" startWithSAP="1" subsegmentStartsWithSAP="1" bitstreamSwitching="false">
+      <SegmentTemplate timescale="90000" duration="2702700" startNumber="1"/>
+      <Representation id="1" width="1920" height="1080" bandwidth="10000000" codecs="avc1.640028">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_10000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_10000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="2" width="1920" height="1080" bandwidth="8000000" codecs="avc1.640028">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_8000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_8000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="3" width="1440" height="810" bandwidth="6000000" codecs="avc1.640020">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1440x810p_30Hz_6000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1440x810p_30Hz_6000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="4" width="1440" height="810" bandwidth="5000000" codecs="avc1.640020">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1440x810p_30Hz_5000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1440x810p_30Hz_5000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="5" width="1280" height="720" bandwidth="5000000" codecs="avc1.64001f">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1280x720p_30Hz_5000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1280x720p_30Hz_5000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="6" width="1280" height="720" bandwidth="4000000" codecs="avc1.64001f">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1280x720p_30Hz_4000Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1280x720p_30Hz_4000Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="7" width="960" height="540" bandwidth="2500000" codecs="avc1.64001f">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_960x540p_30Hz_2500Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_960x540p_30Hz_2500Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="8" width="768" height="432" bandwidth="1200000" codecs="avc1.64001e">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_768x432p_30Hz_1200Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_768x432p_30Hz_1200Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="9" width="640" height="360" bandwidth="800000" codecs="avc1.64001e">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_640x360p_30Hz_800Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_640x360p_30Hz_800Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+      <Representation id="10" width="416" height="234" bandwidth="360000" codecs="avc1.64000d">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_416x234p_30Hz_360Kbps_Cbr_$Number%09d$.cmfv" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_416x234p_30Hz_360Kbps_Cbrinit.cmfv" duration="2702700" startNumber="1"/>
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet mimeType="audio/mp4" lang="und" segmentAlignment="0">
+      <SegmentTemplate timescale="24000" duration="720720" startNumber="1"/>
+      <Representation id="11" bandwidth="96000" audioSamplingRate="48000" codecs="mp4a.40.5">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbps_$Number%09d$.cmfa" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbpsinit.cmfa" duration="720720" startNumber="1"/>
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+      </Representation>
+      <Representation id="12" bandwidth="64000" audioSamplingRate="48000" codecs="mp4a.40.5">
+        <SegmentTemplate media="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_64Kbps_$Number%09d$.cmfa" initialization="bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_64Kbpsinit.cmfa" duration="720720" startNumber="1"/>
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

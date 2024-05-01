@@ -1,0 +1,8 @@
+m3u8==4.0.0
+mpegdash==0.4.0
+urllib3==1.26.16
+charset-normalizer==3.2.0
+idna==3.4
+certifi==2023.7.22
+requests==2.31.0
+mp4analyser==0.0.1
