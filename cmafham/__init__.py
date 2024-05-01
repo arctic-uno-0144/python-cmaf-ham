@@ -3,7 +3,7 @@ CmafHam
 ================================================================================
 
 A Python library for the parsing, manipulation and creation of
-HLS and DASH manifests using the CMAF 'Hypothetical Application Model' as definied in ISO/IEC 23000-19.
+HLS and DASH manifests using the CMAF 'Hypothetical Application Model' as defined in ISO/IEC 23000-19.
 
 Inspired by the Common Media Library CMAF-HAM project:
     * https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham
