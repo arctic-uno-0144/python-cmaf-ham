@@ -270,7 +270,7 @@ class AudioTrack:
 
     def as_dict(self):
         """ Return as a dictionary. """
-        segments:list = []
+        segments: list = []
         if self.segments:
             segments = [s.as_dict() for s in self.segments]
         return {
@@ -327,7 +327,7 @@ class TextTrack:
 
     def as_dict(self):
         """ Return as a dictionary. """
-        segments:list = []
+        segments: list = []
         if self.segments:
             segments = [s.as_dict() for s in self.segments]
         return {
@@ -402,7 +402,7 @@ class VideoTrack:
 
     def as_dict(self):
         """ Return as a dictionary. """
-        segments:list = []
+        segments: list = []
         if self.segments:
             segments = [s.as_dict() for s in self.segments]
         return {
