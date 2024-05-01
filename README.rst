@@ -186,4 +186,4 @@ For example:
 .. _ISOBMFF box: https://www.loc.gov/preservation/digital/formats/fdd/fdd000079.shtml
 .. _M3U8 object: https://github.com/globocom/m3u8/blob/3c352ffd738cfa630c11a6920a9fbc605fc2a047/m3u8/model.py#L23
 .. _MPEGDASH object: https://github.com/sangwonl/python-mpegdash/blob/a9f5e78f6400328e269f655e5df45e37d990a6e3/mpegdash/nodes.py#L737
-.. _Presentation object: docs/_build/html/cmafham.html#cmafham.models.Presentation
+.. _Presentation object: /Users/sreese/Documents/Personal/code/python_cmafham/docs/_build/html/cmafham.html#cmafham.models.Presentation
