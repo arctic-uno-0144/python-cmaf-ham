@@ -1,3 +1,5 @@
+CmafHam
+========
 CmafHam is a Python implementation of an `HLS`_/`DASH`_ parser for `CMAF`_ encoded files, based on the CMAF 'Hypothetical Application Model' (ISO/IEC 23000-19 Chapter 6) and the `DASH HLS Interoperability Specification`_ (CTA-5005-A).
 
 Inspired by the `2024 MonteVideo Tech Summer Camp`_ CMAF-HAM `project`_ for the `Common Media Library`_.
