@@ -2,9 +2,6 @@
 NOT IMPLEMENTED!
 This module parses CMAF encoded files for mapping to a CMAF Presentation.
 
-Credit to the 'mp4analyser' library:
-    * https://github.com/essential61/mp4analyser
-
 :copyright: (c) 2024 Shayne Reese.
 :license: MIT, see LICENSE for more details.
 """

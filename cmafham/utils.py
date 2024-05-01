@@ -16,7 +16,7 @@ import requests
 
 def gen_uuid() -> str:
     """ Generate a random uuid string.
-    :return: version 4(random) uuid string.
+    :returns: version 4(random) uuid string.
     :rtype: str
     """
     return str(uuid4())
@@ -26,7 +26,7 @@ def get_manifest_string(manifest_uri: str) -> str:
     """ Load a manifest as a string from a file or url.
 
     :param str manifest_uri: web url or uri path of manifest.
-    :return: string of the manifest or an empty string.
+    :returns: string of the manifest or an empty string.
     :rtype: str
     """
     if "http" in manifest_uri:
@@ -45,8 +45,6 @@ def load_file(file_uri: str) -> Union[io.BufferedReader, io.BytesIO, None]:
     :param str file_uri : str - url or path to file.
     :returns: file like object or nothing if unsucessful.
     :rtype: io.BufferedReader or io.BytesIO or None
-    
-    TODO: potentially replace with using the 'mp4analyser' parser..
     """
     if "http" in file_uri:
         head = requests.head(file_uri, timeout=20)
