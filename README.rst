@@ -4,14 +4,13 @@ CmafHam is a Python implementation of an `HLS`_/`DASH`_ parser for `CMAF`_ encod
 
 Inspired by the `2024 MonteVideo Tech Summer Camp`_ CMAF-HAM `project`_ for the `Common Media Library`_.
 
-Input manifests are parsed and mapped into CMAF 'HAM' model objects, where the data can be stored manifest agnostic and can be manipulated or renderead to manifest(s) for either HLS or DASH.
+Input manifests are parsed and mapped into CMAF 'HAM' model objects, where the data can be stored in a manifest agnostic format and can be manipulated or rendered to manifest(s) for either HLS or DASH.
 
-This project also has the goal of generating a HAM model object solely from CMAF encoded segment files without a manifest.
+This project also has the goal of generating a HAM model object solely from CMAF encoded segment files independent of a manifest.
 
 Credit to the `m3u8`_ and `mpegdash`_ libraries used for parsing and rendering of HLS and DASH, and the `mp4analyser`_ library for the `ISOBMFF box`_ parsing.
 
 TODO: improve docs, create tests...
-
 
 Limitations
 ===========
