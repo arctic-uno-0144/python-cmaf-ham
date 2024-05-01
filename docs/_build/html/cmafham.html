@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CmafHam &mdash; CmafHam 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="cmafham" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CmafHam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">cmafham</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CmafHam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmafham.InputManifestError"><code class="docutils literal notranslate"><span class="pre">InputManifestError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmafham.MissingSegmentError"><code class="docutils literal notranslate"><span class="pre">MissingSegmentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmafham.from_segments"><code class="docutils literal notranslate"><span class="pre">from_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmafham.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmafham.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cmafham.ham">cmafham.ham</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.CmafSegmentMapper"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.CmafSegmentMapper.create_swset"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.create_swset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.CmafSegmentMapper.map"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.CmafSegmentMapper.parse_tracks"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.parse_tracks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.CmafSegmentMapper.subtitle"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.subtitle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.DashSegmentParser"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashSegmentParser.base"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.base()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashSegmentParser.list"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashSegmentParser.template"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.DashTrackMapper"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashTrackMapper.audio"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.audio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashTrackMapper.iso_time"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.iso_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashTrackMapper.map"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashTrackMapper.text"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.DashTrackMapper.video"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.HAM"><code class="docutils literal notranslate"><span class="pre">HAM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HAM.render_dash"><code class="docutils literal notranslate"><span class="pre">HAM.render_dash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HAM.render_ham"><code class="docutils literal notranslate"><span class="pre">HAM.render_ham()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HAM.render_hls"><code class="docutils literal notranslate"><span class="pre">HAM.render_hls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HAM.update"><code class="docutils literal notranslate"><span class="pre">HAM.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.HamMapper"><code class="docutils literal notranslate"><span class="pre">HamMapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.dash_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.dash_to_ham()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.ham_manifest"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_manifest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.ham_to_dash"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_to_dash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.ham_to_hls"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_to_hls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.hls_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.hls_to_ham()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HamMapper.segments_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.segments_to_ham()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.audio"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.audio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.manifest"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.manifest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.media"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.media()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.text"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.variant"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.variant()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsPresentationMapper.video"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.ham.HlsTrackMapper"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsTrackMapper.audio"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.audio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsTrackMapper.text"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.ham.HlsTrackMapper.video"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.video()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cmafham.models">cmafham.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.AudioTrack"><code class="docutils literal notranslate"><span class="pre">AudioTrack</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.AudioTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">AudioTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.DASH"><code class="docutils literal notranslate"><span class="pre">DASH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.HLS"><code class="docutils literal notranslate"><span class="pre">HLS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.HlsMedia"><code class="docutils literal notranslate"><span class="pre">HlsMedia</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.HlsVariant"><code class="docutils literal notranslate"><span class="pre">HlsVariant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.InputMissingError"><code class="docutils literal notranslate"><span class="pre">InputMissingError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.Presentation"><code class="docutils literal notranslate"><span class="pre">Presentation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.Presentation.as_dict"><code class="docutils literal notranslate"><span class="pre">Presentation.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.Segment"><code class="docutils literal notranslate"><span class="pre">Segment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.Segment.as_dict"><code class="docutils literal notranslate"><span class="pre">Segment.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.SelectionSet"><code class="docutils literal notranslate"><span class="pre">SelectionSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.SelectionSet.as_dict"><code class="docutils literal notranslate"><span class="pre">SelectionSet.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.SwitchingSet"><code class="docutils literal notranslate"><span class="pre">SwitchingSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.SwitchingSet.as_dict"><code class="docutils literal notranslate"><span class="pre">SwitchingSet.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.TextTrack"><code class="docutils literal notranslate"><span class="pre">TextTrack</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.TextTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">TextTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.models.VideoTrack"><code class="docutils literal notranslate"><span class="pre">VideoTrack</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.models.VideoTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">VideoTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cmafham.utils">cmafham.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.float_fr"><code class="docutils literal notranslate"><span class="pre">float_fr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.gen_uuid"><code class="docutils literal notranslate"><span class="pre">gen_uuid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.get_manifest_string"><code class="docutils literal notranslate"><span class="pre">get_manifest_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.get_path"><code class="docutils literal notranslate"><span class="pre">get_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.parse_codec"><code class="docutils literal notranslate"><span class="pre">parse_codec()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.utils.remove_ext"><code class="docutils literal notranslate"><span class="pre">remove_ext()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cmafham.cmaf">cmafham.cmaf</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.BoxParser"><code class="docutils literal notranslate"><span class="pre">BoxParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmafham.cmaf.BoxParser.parse"><code class="docutils literal notranslate"><span class="pre">BoxParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.CMAF"><code class="docutils literal notranslate"><span class="pre">CMAF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.CmafInitSegment"><code class="docutils literal notranslate"><span class="pre">CmafInitSegment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.CmafMediaSegment"><code class="docutils literal notranslate"><span class="pre">CmafMediaSegment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.parse_children"><code class="docutils literal notranslate"><span class="pre">parse_children()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmafham.cmaf.parse_cmaf_file"><code class="docutils literal notranslate"><span class="pre">parse_cmaf_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CmafHam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">cmafham</a></li>
+      <li class="breadcrumb-item active">CmafHam</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cmafham.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cmafham">
+<span id="module-cmafham"></span><h1>CmafHam<a class="headerlink" href="#cmafham" title="Link to this heading"></a></h1>
+<p>A Python library for the parsing, manipulation and creation of
+HLS and DASH manifests using the CMAF ‘Hypothetical Application Model’ as definied in ISO/IEC 23000-19.</p>
+<dl class="simple">
+<dt>Inspired by the Common Media Library CMAF-HAM project:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham">https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham</a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2024 Shayne Reese.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+<dt class="field-odd">version<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0.0.1</p>
+</dd>
+</dl>
+</section>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cmafham.InputManifestError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.</span></span><span class="sig-name descname"><span class="pre">InputManifestError</span></span><a class="reference internal" href="_modules/cmafham.html#InputManifestError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.InputManifestError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception to be raised when input is missing or for invalid manifest formats.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cmafham.MissingSegmentError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.</span></span><span class="sig-name descname"><span class="pre">MissingSegmentError</span></span><a class="reference internal" href="_modules/cmafham.html#MissingSegmentError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.MissingSegmentError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception to be raised when segment files cannot be found or loaded properly.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.from_segments">
+<span class="sig-prename descclassname"><span class="pre">cmafham.</span></span><span class="sig-name descname"><span class="pre">from_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham.html#from_segments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.from_segments" title="Link to this definition"></a></dt>
+<dd><p>NOT IMPLEMENTED!
+Create a ‘HAM’ object based on the segment files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_uri</strong> (<em>str</em>) – base path location for segments.</p></li>
+<li><p><strong>segments</strong> – list of segment filenames.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A ‘HAM’ object representing the media presentation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cmafham.MissingSegmentError" title="cmafham.MissingSegmentError"><strong>MissingSegmentError</strong></a> – when segment files are missing or loading fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.load">
+<span class="sig-prename descclassname"><span class="pre">cmafham.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifest_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.load" title="Link to this definition"></a></dt>
+<dd><p>Create a ‘HAM’ object from a uri/url.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>manifest_uri</strong> (<em>str</em>) – file path or url of the manifest to use.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>‘HAM’ of the source presentation containing the ‘Presentation’, ‘HLS’, and ‘DASH’ objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cmafham.InputManifestError" title="cmafham.InputManifestError"><strong>InputManifestError</strong></a> – When an invalid file extension is given.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.loads">
+<span class="sig-prename descclassname"><span class="pre">cmafham.</span></span><span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifest_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hls_renditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hls_media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham.html#loads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.loads" title="Link to this definition"></a></dt>
+<dd><p>Create a ‘HAM’ object from string(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manifest_string</strong> (<em>str</em>) – string representation of manifest.</p></li>
+<li><p><strong>hls_renditions</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – strings of the HLS variant playlists, optional.</p></li>
+<li><p><strong>hls_media</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – strings of HLS media playlists, optional.</p></li>
+<li><p><strong>file_uri</strong> (<em>str</em>) – path to the media files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object model of the source presentation containing the CMAF ‘Presentation’, ‘HLS’, and ‘DASH’ objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cmafham.InputManifestError" title="cmafham.InputManifestError"><strong>InputManifestError</strong></a> – When the manifest type can’t be parsed or is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="module-cmafham.ham">
+<span id="cmafham-ham"></span><h1>cmafham.ham<a class="headerlink" href="#module-cmafham.ham" title="Link to this heading"></a></h1>
+<p>This module contains the core objects and functions to perform the parsing and mapping to the models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2024 Shayne Reese.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.CmafSegmentMapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">CmafSegmentMapper</span></span><a class="reference internal" href="_modules/cmafham/ham.html#CmafSegmentMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.CmafSegmentMapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Class to map CMAF file iso box data into CMAF-HAM model format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.CmafSegmentMapper.create_swset">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_swset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#CmafSegmentMapper.create_swset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.CmafSegmentMapper.create_swset" title="Link to this definition"></a></dt>
+<dd><p>Create a CMAF ‘SwitchingSet’ for a set of files.
+Need to split the file box data into some subset of groups before this step most likely.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.CmafSegmentMapper.map">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.SwitchingSet" title="cmafham.models.SwitchingSet"><span class="pre">SwitchingSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#CmafSegmentMapper.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.CmafSegmentMapper.map" title="Link to this definition"></a></dt>
+<dd><p>Try to create and return CMAF ‘SwitchingSet’s for the given data.
+Need to filter the data at this point…</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.CmafSegmentMapper.parse_tracks">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#CmafSegmentMapper.parse_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.CmafSegmentMapper.parse_tracks" title="Link to this definition"></a></dt>
+<dd><p>Create CMAF ‘Track’ objects from the file data.
+Need to parse track type to determine the relevant data to parse.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.CmafSegmentMapper.subtitle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subtitle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#CmafSegmentMapper.subtitle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.CmafSegmentMapper.subtitle" title="Link to this definition"></a></dt>
+<dd><p>Parse a single subtitle file? 
+TODO: Think of the best way to handle subtitles here, may need a second function to create the actual track…</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.DashSegmentParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">DashSegmentParser</span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashSegmentParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashSegmentParser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Class to parse data from different types of DASH manifest segment types,
+to return the data in a uniform way for the ‘DashTrackMapper’ functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashSegmentParser.base">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#DashSegmentParser.base"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashSegmentParser.base" title="Link to this definition"></a></dt>
+<dd><p>Parse segment_base data, format and return.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashSegmentParser.list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#DashSegmentParser.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashSegmentParser.list" title="Link to this definition"></a></dt>
+<dd><p>Parse segment_list data, format and return.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashSegmentParser.template">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#DashSegmentParser.template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashSegmentParser.template" title="Link to this definition"></a></dt>
+<dd><p>Parse segment_template data, format and return.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">DashTrackMapper</span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Class for mapping ‘MPEGDASH’ objects to CMAF ‘Track’ objects.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper.audio">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper.audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper.audio" title="Link to this definition"></a></dt>
+<dd><p>Create an ‘AudioTrack’ from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+<li><p><strong>data3</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Audio track object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack">cmafham.models.AudioTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper.iso_time">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iso_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper.iso_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper.iso_time" title="Link to this definition"></a></dt>
+<dd><p>Return an ISO 8601 time string as a float value in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_str</strong> (<em>str</em>) – ISO-8601 formatted time string from DASH manifest ex. (“PT10M34.533S”).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>time as a float value in seconds.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper.map">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adaptation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AdaptationSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Representation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper.map" title="Link to this definition"></a></dt>
+<dd><p>Master track mapping function, determines the type and employs the appropriate mapper and returns the assembled track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adaptation</strong> (<em>mpegdash.nodes.AdaptationSet</em>) – adaptation set object.</p></li>
+<li><p><strong>representation</strong> (<em>mpegdash.nodes.Representation</em>) – representation object.</p></li>
+<li><p><strong>duration</strong> – DASH period duration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CMAF track object if parsed, else None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack">AudioTrack</a> or <a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack">TextTrack</a> or <a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack">VideoTrack</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper.text">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper.text" title="Link to this definition"></a></dt>
+<dd><p>Create an ‘TextTrack’ from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+<li><p><strong>data3</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Text track object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack">cmafham.models.TextTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.DashTrackMapper.video">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#DashTrackMapper.video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.DashTrackMapper.video" title="Link to this definition"></a></dt>
+<dd><p>Create an ‘VideoTrack’ from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data1</strong> – placeholder parameter.</p></li>
+<li><p><strong>data2</strong> – placeholder parameter.</p></li>
+<li><p><strong>data3</strong> – placeholder parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Video track object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack">cmafham.models.VideoTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.HAM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">HAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">presentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation"><span class="pre">Presentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hls_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.HLS" title="cmafham.models.HLS"><span class="pre">HLS</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.DASH" title="cmafham.models.DASH"><span class="pre">DASH</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/ham.html#HAM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HAM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The ‘Hypothetical Application Model’ object is the container of the CMAF ‘Presentation’, ‘HLS’ and ‘DASH’ objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>presentation</strong> (<a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation"><em>cmafham.models.Presentation</em></a>) – The CMAF ‘Presentation’ object representation of the media presentation.</p></li>
+<li><p><strong>hls_obj</strong> (<a class="reference internal" href="#cmafham.models.HLS" title="cmafham.models.HLS"><em>cmafham.models.HLS</em></a>) – the ‘HLS’ wrapper object that contains the HLS presentation data.</p></li>
+<li><p><strong>dash_obj</strong> (<a class="reference internal" href="#cmafham.models.DASH" title="cmafham.models.DASH"><em>cmafham.models.DASH</em></a>) – the ‘DASH’ wrapper object that contains the DASH presentation data.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HAM.render_dash">
+<span class="sig-name descname"><span class="pre">render_dash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HAM.render_dash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HAM.render_dash" title="Link to this definition"></a></dt>
+<dd><p>Create a manifest file for the DASH presentation.</p>
+<p>TODO: clean up the filename, possibly use other defaults or self.presentation.id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_to</strong> (<em>str</em>) – location to save the manifest file, optional, defaults to cwd.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – filename for the manifest, optional, defaults to ‘main’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HAM.render_ham">
+<span class="sig-name descname"><span class="pre">render_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HAM.render_ham"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HAM.render_ham" title="Link to this definition"></a></dt>
+<dd><p>Create a json manifest file of the CMAF ‘Presentation’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HAM.render_hls">
+<span class="sig-name descname"><span class="pre">render_hls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HAM.render_hls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HAM.render_hls" title="Link to this definition"></a></dt>
+<dd><p>Create the manifest files for the HLS presentation.</p>
+<p>TODO: clean up the filename, possibly use other defaults or self.presentation.id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_to</strong> (<em>str</em>) – path to save the manifest files to, optional, defaults to cwd.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – filename for the manifest, optional, defaults to ‘main’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HAM.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HAM.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HAM.update" title="Link to this definition"></a></dt>
+<dd><p>Create the missing object(s) from the CMAF ‘Presentation’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">HamMapper</span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>HLS &lt;–&gt; Presentation &lt;–&gt; DASH</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.dash_to_ham">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dash_to_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dash_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.DASH" title="cmafham.models.DASH"><span class="pre">DASH</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.dash_to_ham"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.dash_to_ham" title="Link to this definition"></a></dt>
+<dd><p>Create a ‘HAM’ object from the ‘DASH’ object.</p>
+<p>TODO: write functions to parse for each dash segment type(segment list, segment template, segment base..).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dash_obj</strong> (<a class="reference internal" href="#cmafham.models.DASH" title="cmafham.models.DASH"><em>cmafham.models.DASH</em></a>) – ‘DASH’ object of the media presentation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>‘HAM’ object for the media presentation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.ham_manifest">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ham_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.ham_manifest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.ham_manifest" title="Link to this definition"></a></dt>
+<dd><p>Create a HAM object from a saved CMAF ‘Presentation’ ‘manifest’ file or string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> (<em>str</em>) – path to the manifest json file.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – string representation of the manifest.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>HAM object for the media presentation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.ham_to_dash">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ham_to_dash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">presentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation"><span class="pre">Presentation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.DASH" title="cmafham.models.DASH"><span class="pre">DASH</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.ham_to_dash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.ham_to_dash" title="Link to this definition"></a></dt>
+<dd><p>Map the properties of a CMAF ‘Presentation’ to a ‘DASH’ object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.ham_to_hls">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ham_to_hls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">presentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation"><span class="pre">Presentation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.HLS" title="cmafham.models.HLS"><span class="pre">HLS</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.ham_to_hls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.ham_to_hls" title="Link to this definition"></a></dt>
+<dd><p>Map the properties of a CMAF ‘Presentation’ to an ‘HLS’ object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>presentation</strong> (<a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation"><em>cmafham.models.Presentation</em></a>) – CMAF ‘Presentation’ object for the media presentation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>‘HLS’ representation of the CMAF ‘Presentation’</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.Presentation" title="cmafham.models.Presentation">cmafham.models.Presentation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.hls_to_ham">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hls_to_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hls_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.HLS" title="cmafham.models.HLS"><span class="pre">HLS</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.hls_to_ham"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.hls_to_ham" title="Link to this definition"></a></dt>
+<dd><p>Create a ‘HAM’ object from the ‘HLS’ object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hls_obj</strong> (<a class="reference internal" href="#cmafham.models.HLS" title="cmafham.models.HLS"><em>cmafham.models.HLS</em></a>) – object representation of HLS manifest/presentation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>HAM object containing the CMAF ‘Presentation’, ‘HLS’, and ‘DASH’ representations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HamMapper.segments_to_ham">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">segments_to_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM"><span class="pre">HAM</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HamMapper.segments_to_ham"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HamMapper.segments_to_ham" title="Link to this definition"></a></dt>
+<dd><p>NOT IMPLEMENTED!
+Create a ‘Presentation’ from CMAF encoded segments, then return a ‘HAM’ object from that.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_uri</strong> (<em>str</em>) – base path location for segments.</p></li>
+<li><p><strong>segments</strong> – list of segment filenames.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A ‘HAM’ object representing the media presentation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.ham.HAM" title="cmafham.ham.HAM">cmafham.ham.HAM</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">HlsPresentationMapper</span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Class for mapping CMAF ‘Presentation’ data to an ‘HLS’ object.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.audio">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Media</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.audio" title="Link to this definition"></a></dt>
+<dd><p>Create audio ‘m3u8.model.Media’ objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>track</strong> (<a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><em>cmafham.models.AudioTrack</em></a>) – audio track object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>m3u8 media object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>m3u8.model.Media</p>
+</dd>
+</dl>
+<p>TODO: possibly set other attr’s with defaults, ie. ‘default’, ‘autoselect’, ‘name’…</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.manifest">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playlists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlaylistList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MediaList</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">M3U8</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.manifest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.manifest" title="Link to this definition"></a></dt>
+<dd><p>Create and assemble the ‘m3u8.model.M3U8’ for the data.</p>
+<p>TODO: possibly set defaults for version etc.; use ‘flag’ attrs to determine any other neccesary options could be necesary if coming from dash/ham to enable certain features…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>playlists</strong> (<em>m3u8.model.PlaylistList</em>) – variant playlists.</p></li>
+<li><p><strong>media</strong> (<em>m3u8.model.MediaList</em>) – hls media information.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.media">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MediaList</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.media"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.media" title="Link to this definition"></a></dt>
+<dd><p>Maps AudioTrack or TextTrack into HLS EXT-X-MEDIA data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tracks</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><em>AudioTrack</em></a><em>] or </em><em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><em>TextTrack</em></a><em>]</em>) – media track data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>M3U8 media data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>m3u8.model.MediaList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.text">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Media</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.text" title="Link to this definition"></a></dt>
+<dd><p>Create CLOSED-CAPTION or SUBTITLE ‘m3u8.model.Media’ objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>track</strong> (<a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><em>cmafham.models.TextTrack</em></a>) – subtitle/closed caption data</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>subtitle/closed caption media data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>m3u8.model.Media</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.variant">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Playlist</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Media</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">M3U8</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.variant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.variant" title="Link to this definition"></a></dt>
+<dd><p>Create a ‘m3u8.model.M3U8’ object for media/variant playlist, to create a manifest file…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>track</strong> (<a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><em>cmafham.models.AudioTrack</em></a><em> or </em><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><em>cmafham.models.TextTrack</em></a><em> or </em><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><em>cmafham.models.VideoTrack</em></a>) – CMAF Track data</p></li>
+<li><p><strong>playlist</strong> (<em>m3u8.model.Playlist</em>) – HLS EXT-X-STREAM-INF data. (optional)</p></li>
+<li><p><strong>media</strong> (<em>m3u8.model.Media</em>) – HLS EXT-X-MEDIA data. (optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>media playlist ‘M3U8’ object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>m3u8.model.M3U8</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsPresentationMapper.video">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MediaList</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PlaylistList</span></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsPresentationMapper.video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsPresentationMapper.video" title="Link to this definition"></a></dt>
+<dd><p>Create ‘m3u8.model.Playlist’ objects for video.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracks</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><em>VideoTrack</em></a><em>]</em>) – list of video tracks.</p></li>
+<li><p><strong>media</strong> (<em>m3u8.model.MediaList</em>) – list of media objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of variant playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>m3u8.model.PlaylistList</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.ham.HlsTrackMapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.ham.</span></span><span class="sig-name descname"><span class="pre">HlsTrackMapper</span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsTrackMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsTrackMapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for the mapping of HLS variant stream properties to CMAF ‘Track’ objects .</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsTrackMapper.audio">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Media</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audiolist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlaylistList</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsTrackMapper.audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsTrackMapper.audio" title="Link to this definition"></a></dt>
+<dd><p>Map the properties of ‘M3U8’ objects to a CMAF ‘AudioTrack’ object.</p>
+<p>TODO: parse sample rate and bandwidth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>media</strong> (<em>m3u8.model.Media</em>) – HLS EXT-X-MEDIA data.</p></li>
+<li><p><strong>base_uri</strong> (<em>str</em>) – base uri path for the files, optional.</p></li>
+<li><p><strong>audiolist</strong> (<em>m3u8.model.M3U8</em>) – HLS manifest of audio data, optional.</p></li>
+<li><p><strong>playlists</strong> (<em>m3u8.model.PlaylistList</em>) – list of variant playlists, optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CMAF audio track object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack">cmafham.models.AudioTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsTrackMapper.text">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Media</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsTrackMapper.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsTrackMapper.text" title="Link to this definition"></a></dt>
+<dd><p>Maps the properties of HLS subtitles to a CMAF ‘TextTrack’ object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>media</strong> (<em>m3u8.model.Media</em>) – HLS EXT-X-MEDIA data.</p></li>
+<li><p><strong>base_uri</strong> (<em>str</em>) – base uri path for the files. (optional)</p></li>
+<li><p><strong>playlist</strong> (<em>m3u8.model.M3U8</em>) – HLS media playlist. (optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CMAF text track object of subtitles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack">cmafham.models.TextTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.ham.HlsTrackMapper.video">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Playlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a></span></span><a class="reference internal" href="_modules/cmafham/ham.html#HlsTrackMapper.video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.ham.HlsTrackMapper.video" title="Link to this definition"></a></dt>
+<dd><p>Map the properties of M3U8 objects to a CMAF ‘VideoTrack’ object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>playlist</strong> (<em>m3u8.model.Playlist</em>) – variant playlist data from multivariant playlist.</p></li>
+<li><p><strong>base_uri</strong> (<em>str</em>) – base uri path for the files. (optional)</p></li>
+<li><p><strong>variant</strong> (<em>m3u8.model.M3U8</em>) – HLS media playlist. (optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CMAF video track object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack">cmafham.models.VideoTrack</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cmafham.models">
+<span id="cmafham-models"></span><h1>cmafham.models<a class="headerlink" href="#module-cmafham.models" title="Link to this heading"></a></h1>
+<p>CmafHam object models for the CMAF Presentation structure and the HLS and DASH containers.</p>
+<p>[CMAF] ISO/IEC 23000-19:2020, Information technology — Coding of audio-visual
+objects — Part 19: Common media application format (CMAF) for
+segmented media.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2024 Shayne Reese.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.AudioTrack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">AudioTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><span class="pre">Segment</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_init</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#AudioTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.AudioTrack" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Audio Track</p>
+<p>(from [CMAF]) Sequence of CMAF Fragments that are
+consecutive in presentation time, contain one media
+stream, conform to at least one structural CMAF brand,
+including an associated CMAF Header that can initialize
+playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – track id, hls=group_id.</p></li>
+<li><p><strong>codec</strong> (<em>str</em>) – audio codec.</p></li>
+<li><p><strong>channels</strong> (<em>int</em>) – number of audio channels.</p></li>
+<li><p><strong>duration</strong> (<em>float</em><em> or </em><em>int</em>) – track duration in seconds.</p></li>
+<li><p><strong>language</strong> (<em>str</em>) – audio language.</p></li>
+<li><p><strong>segments</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><em>cmafham.models.Segment</em></a><em>]</em>) – CMAF Segment objects for the track.</p></li>
+<li><p><strong>sample_rate</strong> (<em>float</em><em> or </em><em>int</em>) – audio sample rate.</p></li>
+<li><p><strong>bandwidth</strong> (<em>int</em>) – track bandwith.</p></li>
+<li><p><strong>url_init</strong> (<em>str</em>) – uri/url of initilization segment.</p></li>
+<li><p><strong>flags</strong> – helper/optional flags for format specfic mapping.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.AudioTrack.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#AudioTrack.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.AudioTrack.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as a dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.DASH">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">DASH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpd_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MPEGDASH</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#DASH"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.DASH" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class to contain all DASH data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> (<em>str</em>) – uri/url of the mpd manifest.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – string of the mpd manifest.</p></li>
+<li><p><strong>mpd_obj</strong> (<em>mpegdash.nodes.MPEGDASH</em>) – MPEGDASH object already created from manifest.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.HLS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">HLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m3u8_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#HLS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.HLS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for containing all HLS data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> (<em>str</em>) – uri/url of the m3u8 manifest.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – string of the m3u8 manifest.</p></li>
+<li><p><strong>variants</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – strings of the variant playlists.</p></li>
+<li><p><strong>media</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – strings of the media playlists.</p></li>
+<li><p><strong>m3u8_obj</strong> (<em>m3u8.model.M3U8</em>) – a m3u8.model.M3U8 object that has already been created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cmafham.models.InputMissingError" title="cmafham.models.InputMissingError"><strong>InputMissingError</strong></a> – when no input manifest or object is provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.HlsMedia">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">HlsMedia</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Media</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medialist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#HlsMedia"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.HlsMedia" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for a ‘m3u8.model.Media’ object and its corresponding ‘m3u8.model.M3U8’ playlist object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>media</strong> (<em>m3u8.model.Media</em>) – EXT-X-MEDIA object from the multivariant playlist.</p></li>
+<li><p><strong>medialist</strong> (<em>m3u8.model.M3U8</em>) – ‘M3U8’ playlist for the ‘Media’ object content.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.HlsVariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">HlsVariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Playlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">M3U8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#HlsVariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.HlsVariant" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for a ‘m3u8.model.Playlist’ object and its corresponding ‘m3u8.model.M3U8’ playlist object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plist</strong> (<em>m3u8.model.Playlist</em>) – ‘Playlist’ object representing a variant playlist.</p></li>
+<li><p><strong>playlist</strong> (<em>m3u8.model.M3U8</em>) – ‘M3U8’ playlist object for the variant playlist.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cmafham.models.InputMissingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">InputMissingError</span></span><a class="reference internal" href="_modules/cmafham/models.html#InputMissingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.InputMissingError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raised when no manifest is supplied for object creation.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.Presentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">Presentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_sets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.SelectionSet" title="cmafham.models.SelectionSet"><span class="pre">SelectionSet</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#Presentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.Presentation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Presentation</p>
+<p>(from [CMAF]) Set of one or more CMAF Selection Sets
+that can be simultaneously decoded to produce a
+multimedia user experience, potentially including
+synchronized audio, video, and subtitles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – presentation id, version 4 uuid.</p></li>
+<li><p><strong>selection_sets</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.SelectionSet" title="cmafham.models.SelectionSet"><em>SelectionSet</em></a><em>]</em>) – ‘SelectionSet’(s) for the Presentation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.Presentation.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#Presentation.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.Presentation.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.Segment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">Segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byterange</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#Segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.Segment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Segment</p>
+<p>(from [CMAF]) CMAF Addressable Media Object
+consisting of one or more consecutive CMAF Fragments
+from the same CMAF Track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – filename of the segment</p></li>
+<li><p><strong>duration</strong> (<em>float</em><em> or </em><em>int</em>) – segment duration in seconds.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – full url/uri of segment.</p></li>
+<li><p><strong>byterange</strong> (<em>str</em>) – byterange of segment.</p></li>
+<li><p><strong>flags</strong> – helper/optional flags for format specfic mapping.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.Segment.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#Segment.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.Segment.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as a dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.SelectionSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">SelectionSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switching_sets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.SwitchingSet" title="cmafham.models.SwitchingSet"><span class="pre">SwitchingSet</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#SelectionSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.SelectionSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Selection Set</p>
+<p>(from [CMAF]) Set of one or more CMAF Switching Sets,
+where each CMAF Switching Set encodes an alternative
+aspect of the same presentation over the same time
+period, only one of which is intended to be played at a
+time, e.g. an alternative language or codec.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – switching set id, version 4 uuid.</p></li>
+<li><p><strong>switching_sets</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.SwitchingSet" title="cmafham.models.SwitchingSet"><em>cmafham.models.SwitchingSet</em></a><em>]</em>) – ‘SwitchingSet’(s) for the ‘SelectionSet’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.SelectionSet.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#SelectionSet.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.SelectionSet.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.SwitchingSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">SwitchingSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><span class="pre">AudioTrack</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><span class="pre">TextTrack</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.VideoTrack" title="cmafham.models.VideoTrack"><span class="pre">VideoTrack</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#SwitchingSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.SwitchingSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Switching Set</p>
+<p>(from [CMAF]) Set of one or more CMAF Tracks, where
+each track is an alternative encoding of the same source
+content, and are constrained to enable seamless track
+switching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – switching set id, version 4 uuid.</p></li>
+<li><p><strong>track_type</strong> (<em>str</em>) – type of the tracks (“audio” | “text” | “video”)</p></li>
+<li><p><strong>tracks</strong> (<em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.AudioTrack" title="cmafham.models.AudioTrack"><em>cmafham.models.AudioTrack</em></a><em>] or </em><em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><em>cmafham.models.TextTrack</em></a><em>] or </em><em>list</em><em>[</em><a class="reference internal" href="#cmafham.models.TextTrack" title="cmafham.models.TextTrack"><em>cmafham.models.TextTrack</em></a><em>]</em>) – tracks for the ‘SwitchingSet’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.SwitchingSet.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#SwitchingSet.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.SwitchingSet.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as a dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.TextTrack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">TextTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><span class="pre">Segment</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#TextTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.TextTrack" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Text Track</p>
+<p>(from [CMAF]) Sequence of CMAF Fragments that are
+consecutive in presentation time, contain one media
+stream, conform to at least one structural CMAF brand,
+including an associated CMAF Header that can initialize
+playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – track id, hls=group_id.</p></li>
+<li><p><strong>codec</strong> (<em>str</em>) – subtitle codec or embedded captions.</p></li>
+<li><p><strong>duration</strong> (<em>float</em><em> or </em><em>int</em>) – track duration.</p></li>
+<li><p><strong>language</strong> (<em>str</em>) – subtitle language.</p></li>
+<li><p><strong>segments</strong> (<a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><em>cmafham.models.Segment</em></a>) – CMAF Segment objects for the track.</p></li>
+<li><p><strong>flags</strong> – helper/optional flags for format specfic mapping.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.TextTrack.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#TextTrack.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.TextTrack.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as a dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.models.VideoTrack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.models.</span></span><span class="sig-name descname"><span class="pre">VideoTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><span class="pre">Segment</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#VideoTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.VideoTrack" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>CMAF Video Track</p>
+<p>(from [CMAF]) Sequence of CMAF Fragments that are
+consecutive in presentation time, contain one media
+stream, conform to at least one structural CMAF brand,
+including an associated CMAF Header that can initialize
+playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – video track id, hls=version 4 uuid.</p></li>
+<li><p><strong>codec</strong> (<em>str</em>) – video codec.</p></li>
+<li><p><strong>duration</strong> (<em>float</em><em> or </em><em>int</em>) – track duration.</p></li>
+<li><p><strong>language</strong> (<em>str</em>) – video language.</p></li>
+<li><p><strong>bandwidth</strong> (<em>int</em>) – track bandwidth.</p></li>
+<li><p><strong>segments</strong> (<a class="reference internal" href="#cmafham.models.Segment" title="cmafham.models.Segment"><em>cmafham.models.Segment</em></a>) – CMAF Segment objects for the track.</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – video width.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – video height.</p></li>
+<li><p><strong>framerate</strong> (<em>float</em><em> or </em><em>int.</em>) – video frame rate.</p></li>
+<li><p><strong>par</strong> (<em>str</em>) – video par.</p></li>
+<li><p><strong>sar</strong> (<em>str</em>) – video sar.</p></li>
+<li><p><strong>scan_type</strong> (<em>str</em>) – video scan type (“interlaced” | “progressive”).</p></li>
+<li><p><strong>flags</strong> – helper/optional flags for format specfic mapping.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.models.VideoTrack.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/models.html#VideoTrack.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.models.VideoTrack.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Return as a dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cmafham.utils">
+<span id="cmafham-utils"></span><h1>cmafham.utils<a class="headerlink" href="#module-cmafham.utils" title="Link to this heading"></a></h1>
+<p>CmafHam helper functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2024 Shayne Reese.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.float_fr">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">float_fr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#float_fr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.float_fr" title="Link to this definition"></a></dt>
+<dd><p>Parse various frame rate representations and return as float value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>framerate</strong> (<em>float</em><em> or </em><em>int</em><em> or </em><em>str</em>) – video frame rate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float value of framerate if parsed, else 0.0.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.gen_uuid">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">gen_uuid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#gen_uuid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.gen_uuid" title="Link to this definition"></a></dt>
+<dd><p>Generate a random uuid string.
+:return: version 4(random) uuid string.
+:rtype: str</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.get_manifest_string">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">get_manifest_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifest_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#get_manifest_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.get_manifest_string" title="Link to this definition"></a></dt>
+<dd><p>Load a manifest as a string from a file or url.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>manifest_uri</strong> (<em>str</em>) – web url or uri path of manifest.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string of the manifest or an empty string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.get_path">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#get_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.get_path" title="Link to this definition"></a></dt>
+<dd><p>Obtain the base path by removing the filename, otherwise, return the current dir.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – uri of the file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>base path to parent file, or cwd</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.load_file">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">load_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BufferedReader</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BytesIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#load_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.load_file" title="Link to this definition"></a></dt>
+<dd><p>Download or open a file-like object.</p>
+<p>:param str file_uri : str - url or path to file.
+:returns: file like object or nothing if unsucessful.
+:rtype: io.BufferedReader or io.BytesIO or None</p>
+<p>TODO: potentially replace with using the ‘mp4analyser’ parser..</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.parse_codec">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">parse_codec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">codec_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#parse_codec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.parse_codec" title="Link to this definition"></a></dt>
+<dd><p>Return the codec(s) and their type from a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>codec_string</strong> (<em>str</em>) – mime type codec string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of present codecs and their type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.utils.remove_ext">
+<span class="sig-prename descclassname"><span class="pre">cmafham.utils.</span></span><span class="sig-name descname"><span class="pre">remove_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cmafham/utils.html#remove_ext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.utils.remove_ext" title="Link to this definition"></a></dt>
+<dd><p>Remove the extension of a filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – full uri of file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tail of path(filename) without extension.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-cmafham.cmaf">
+<span id="cmafham-cmaf"></span><h1>cmafham.cmaf<a class="headerlink" href="#module-cmafham.cmaf" title="Link to this heading"></a></h1>
+<p>NOT IMPLEMENTED!
+This module parses CMAF encoded files for mapping to a CMAF Presentation.</p>
+<dl class="simple">
+<dt>Credit to the ‘mp4analyser’ library:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/essential61/mp4analyser">https://github.com/essential61/mp4analyser</a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2024 Shayne Reese.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.cmaf.BoxParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">BoxParser</span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#BoxParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.BoxParser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Class for Parsing ISOBMFF boxes, returns any relevant data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmafham.cmaf.BoxParser.parse">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#BoxParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.BoxParser.parse" title="Link to this definition"></a></dt>
+<dd><p>Parse the box by using the parser for its type.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.cmaf.CMAF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">CMAF</span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#CMAF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.CMAF" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Core container for CMAF file box data.</p>
+<p>TODO: Needs to be flexible for file type, and data types, etc.</p>
+<ul class="simple">
+<li><p>init files contain more attribute data</p></li>
+<li><p>classify between init or media</p></li>
+<li><p>need to find a way to group media files within their init file group…</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.cmaf.CmafInitSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">CmafInitSegment</span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#CmafInitSegment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.CmafInitSegment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Container for CMAF initilization segment files.</p>
+<p>TODO: try to group the content files here as well.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cmafham.cmaf.CmafMediaSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">CmafMediaSegment</span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#CmafMediaSegment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.CmafMediaSegment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>NOT IMPLEMENTED!
+Container for CMAF media files.</p>
+<p>TODO: extract meaningful data, how to match with an init segment..</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.cmaf.parse_children">
+<span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">parse_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/cmafham/cmaf.html#parse_children"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.parse_children" title="Link to this definition"></a></dt>
+<dd><p>NOT IMPLEMENTED!
+Parse a box and all of it’s child boxes, return the extracted data as a dict for further parsing/analysis.</p>
+<p>TODO: think of how to best handle/present the return data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmafham.cmaf.parse_cmaf_file">
+<span class="sig-prename descclassname"><span class="pre">cmafham.cmaf.</span></span><span class="sig-name descname"><span class="pre">parse_cmaf_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmafham/cmaf.html#parse_cmaf_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmafham.cmaf.parse_cmaf_file" title="Link to this definition"></a></dt>
+<dd><p>NOT IMPLEMENTED!</p>
+<p>TODO: Think of the best way to do this, seems like the init files will be the only way to get the properties right.</p>
+<p>TODO: work on getting the proper files aligned with the init file, probably parse all files, and then create a function to add matching content objects to an init object…</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="cmafham" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Shayne Reese.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

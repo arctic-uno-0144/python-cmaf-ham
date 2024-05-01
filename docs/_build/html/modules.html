@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmafham &mdash; CmafHam 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CmafHam" href="cmafham.html" />
+    <link rel="prev" title="Welcome to CmafHam’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CmafHam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cmafham</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html">CmafHam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.InputManifestError"><code class="docutils literal notranslate"><span class="pre">InputManifestError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.MissingSegmentError"><code class="docutils literal notranslate"><span class="pre">MissingSegmentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.from_segments"><code class="docutils literal notranslate"><span class="pre">from_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.ham">cmafham.ham</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.models">cmafham.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.utils">cmafham.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.cmaf">cmafham.cmaf</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CmafHam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">cmafham</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cmafham">
+<h1>cmafham<a class="headerlink" href="#cmafham" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html">CmafHam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#cmafham.InputManifestError"><code class="docutils literal notranslate"><span class="pre">InputManifestError</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#cmafham.MissingSegmentError"><code class="docutils literal notranslate"><span class="pre">MissingSegmentError</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#cmafham.from_segments"><code class="docutils literal notranslate"><span class="pre">from_segments()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#cmafham.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#cmafham.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#module-cmafham.ham">cmafham.ham</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.CmafSegmentMapper"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.CmafSegmentMapper.create_swset"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.create_swset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.CmafSegmentMapper.map"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.CmafSegmentMapper.parse_tracks"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.parse_tracks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.CmafSegmentMapper.subtitle"><code class="docutils literal notranslate"><span class="pre">CmafSegmentMapper.subtitle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.DashSegmentParser"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashSegmentParser.base"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.base()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashSegmentParser.list"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashSegmentParser.template"><code class="docutils literal notranslate"><span class="pre">DashSegmentParser.template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper.audio"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.audio()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper.iso_time"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.iso_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper.map"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper.text"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.DashTrackMapper.video"><code class="docutils literal notranslate"><span class="pre">DashTrackMapper.video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.HAM"><code class="docutils literal notranslate"><span class="pre">HAM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HAM.render_dash"><code class="docutils literal notranslate"><span class="pre">HAM.render_dash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HAM.render_ham"><code class="docutils literal notranslate"><span class="pre">HAM.render_ham()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HAM.render_hls"><code class="docutils literal notranslate"><span class="pre">HAM.render_hls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HAM.update"><code class="docutils literal notranslate"><span class="pre">HAM.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper"><code class="docutils literal notranslate"><span class="pre">HamMapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.dash_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.dash_to_ham()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.ham_manifest"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_manifest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.ham_to_dash"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_to_dash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.ham_to_hls"><code class="docutils literal notranslate"><span class="pre">HamMapper.ham_to_hls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.hls_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.hls_to_ham()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HamMapper.segments_to_ham"><code class="docutils literal notranslate"><span class="pre">HamMapper.segments_to_ham()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.audio"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.audio()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.manifest"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.manifest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.media"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.media()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.text"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.variant"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.variant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsPresentationMapper.video"><code class="docutils literal notranslate"><span class="pre">HlsPresentationMapper.video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsTrackMapper"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsTrackMapper.audio"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.audio()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsTrackMapper.text"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.ham.HlsTrackMapper.video"><code class="docutils literal notranslate"><span class="pre">HlsTrackMapper.video()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#module-cmafham.models">cmafham.models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.AudioTrack"><code class="docutils literal notranslate"><span class="pre">AudioTrack</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.AudioTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">AudioTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.DASH"><code class="docutils literal notranslate"><span class="pre">DASH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.HLS"><code class="docutils literal notranslate"><span class="pre">HLS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.HlsMedia"><code class="docutils literal notranslate"><span class="pre">HlsMedia</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.HlsVariant"><code class="docutils literal notranslate"><span class="pre">HlsVariant</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.InputMissingError"><code class="docutils literal notranslate"><span class="pre">InputMissingError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.Presentation"><code class="docutils literal notranslate"><span class="pre">Presentation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.Presentation.as_dict"><code class="docutils literal notranslate"><span class="pre">Presentation.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.Segment"><code class="docutils literal notranslate"><span class="pre">Segment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.Segment.as_dict"><code class="docutils literal notranslate"><span class="pre">Segment.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.SelectionSet"><code class="docutils literal notranslate"><span class="pre">SelectionSet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.SelectionSet.as_dict"><code class="docutils literal notranslate"><span class="pre">SelectionSet.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.SwitchingSet"><code class="docutils literal notranslate"><span class="pre">SwitchingSet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.SwitchingSet.as_dict"><code class="docutils literal notranslate"><span class="pre">SwitchingSet.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.TextTrack"><code class="docutils literal notranslate"><span class="pre">TextTrack</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.TextTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">TextTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.models.VideoTrack"><code class="docutils literal notranslate"><span class="pre">VideoTrack</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.models.VideoTrack.as_dict"><code class="docutils literal notranslate"><span class="pre">VideoTrack.as_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#module-cmafham.utils">cmafham.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.float_fr"><code class="docutils literal notranslate"><span class="pre">float_fr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.gen_uuid"><code class="docutils literal notranslate"><span class="pre">gen_uuid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.get_manifest_string"><code class="docutils literal notranslate"><span class="pre">get_manifest_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.get_path"><code class="docutils literal notranslate"><span class="pre">get_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.parse_codec"><code class="docutils literal notranslate"><span class="pre">parse_codec()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.utils.remove_ext"><code class="docutils literal notranslate"><span class="pre">remove_ext()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cmafham.html#module-cmafham.cmaf">cmafham.cmaf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.BoxParser"><code class="docutils literal notranslate"><span class="pre">BoxParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmafham.html#cmafham.cmaf.BoxParser.parse"><code class="docutils literal notranslate"><span class="pre">BoxParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.CMAF"><code class="docutils literal notranslate"><span class="pre">CMAF</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.CmafInitSegment"><code class="docutils literal notranslate"><span class="pre">CmafInitSegment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.CmafMediaSegment"><code class="docutils literal notranslate"><span class="pre">CmafMediaSegment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.parse_children"><code class="docutils literal notranslate"><span class="pre">parse_children()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.cmaf.parse_cmaf_file"><code class="docutils literal notranslate"><span class="pre">parse_cmaf_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to CmafHam’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmafham.html" class="btn btn-neutral float-right" title="CmafHam" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Shayne Reese.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to CmafHam’s documentation! &mdash; CmafHam 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cmafham" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            CmafHam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">cmafham</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CmafHam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to CmafHam’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-cmafham-s-documentation">
+<h1>Welcome to CmafHam’s documentation!<a class="headerlink" href="#welcome-to-cmafham-s-documentation" title="Link to this heading"></a></h1>
+<p>CmafHam is a Python implementation of an <a class="reference external" href="https://tools.ietf.org/html/draft-pantos-hls-rfc8216bis">HLS</a>/<a class="reference external" href="https://dashif.org/guidelines/iop-v5/">DASH</a> parser for <a class="reference external" href="https://mpeg.chiariglione.org/standards/mpeg-a/common-media-application-format/text-isoiec-cd-23000-19-common-media-application">CMAF</a> encoded files, based on the CMAF ‘Hypothetical Application Model’ (ISO/IEC 23000-19 Chapter 6) and the <a class="reference external" href="https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf">DASH HLS Interoperability Specification</a> (CTA-5005-A).</p>
+<p>Inspired by the <a class="reference external" href="https://www.youtube.com/playlist?list=PLfXb5yywZ6rd0TKFZXNe-BUv22aMH5eGp">2024 MonteVideo Tech Summer Camp</a> CMAF-HAM <a class="reference external" href="https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham">project</a> for the <a class="reference external" href="https://github.com/streaming-video-technology-alliance/common-media-library">Common Media Library</a>.</p>
+<p>Input manifests are parsed and mapped into CMAF ‘HAM’ model objects, where the data can be stored manifest agnostic and can be manipulated or renderead to manifest(s) for either HLS or DASH.</p>
+<p>This project also has the goal of generating a HAM model object solely from CMAF encoded segment files without a manifest.</p>
+<p>Credit to the <a class="reference external" href="https://github.com/globocom/m3u8">m3u8</a> and <a class="reference external" href="https://github.com/sangwonl/python-mpegdash/tree/master">mpegdash</a> libraries used for parsing and rendering of HLS and DASH, and the <a class="reference external" href="https://github.com/essential61/mp4analyser/tree/master">mp4analyser</a> library for the <a class="reference external" href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000079.shtml">ISOBMFF box</a> parsing.</p>
+<p>TODO: improve docs, create tests…</p>
+</section>
+<section id="limitations">
+<h1>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h1>
+<p>This project is still in a very early stage of development and is subject to change frequently.</p>
+<p>Due to the limitations of the <a class="reference external" href="https://cdn.cta.tech/cta/media/media/resources/standards/cta-5005-a-final.pdf">interoperability</a> between DASH and HLS there are some features and attributes that cannot currently be presereved in the process. Especially features that are unique to either HLS or DASH, or those which are not covered by the CMAF specification.</p>
+<dl class="simple">
+<dt>List of known limitations:</dt><dd><ul class="simple">
+<li><p>DASH Parsing.                             <strong>[NOT SUPPORTED]</strong></p></li>
+<li><p>Parsing of HLS or DASH from strings.      <strong>[NOT SUPPORTED]</strong></p></li>
+<li><p>Parsing from raw segment files.           <strong>[NOT SUPPORTED]</strong></p></li>
+<li><p>Full rendering to HLS.                    <strong>[NOT SUPPORTED]</strong></p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
+<section id="loading-from-a-manifest-file">
+<h2>Loading from a manifest file<a class="headerlink" href="#loading-from-a-manifest-file" title="Link to this heading"></a></h2>
+<p>To create a ‘HAM’ object from an HLS or DASH manifest file use the <code class="docutils literal notranslate"><span class="pre">load</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cmafham</span>
+
+<span class="c1"># from a web url</span>
+<span class="n">hls</span> <span class="o">=</span> <span class="s2">&quot;http://videoserver.com/manifest.m3u8&quot;</span>
+<span class="n">ham_obj</span> <span class="o">=</span> <span class="n">cmafham</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
+
+<span class="c1"># from a local file</span>
+<span class="n">hls</span> <span class="o">=</span> <span class="s2">&quot;/path/to/manifest.m3u8&quot;</span>
+<span class="n">ham_obj</span> <span class="o">=</span> <span class="n">cmafham</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This parses the input manifest and attempts to create a <code class="docutils literal notranslate"><span class="pre">cmafham.ham.HAM</span></code> object containing the <code class="docutils literal notranslate"><span class="pre">cmafham.models.Presentation</span></code>, <code class="docutils literal notranslate"><span class="pre">cmafham.models.HLS</span></code>, <code class="docutils literal notranslate"><span class="pre">cmafham.models.DASH</span></code> objects that describe the media presentation. These objects give you access to the media’s properties, as well as the manifest for each presentaion format (HLS, DASH, **CMAF).</p>
+<p>The properties can be accessed via the <code class="docutils literal notranslate"><span class="pre">presentation</span></code>, <code class="docutils literal notranslate"><span class="pre">hls</span></code>, and <code class="docutils literal notranslate"><span class="pre">dash</span></code> attributes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hls</span></code> attribute is a container object (<code class="docutils literal notranslate"><span class="pre">cmafham.models.HLS</span></code>) consisting of the <a class="reference external" href="https://github.com/globocom/m3u8/blob/3c352ffd738cfa630c11a6920a9fbc605fc2a047/m3u8/model.py#L23">M3U8 object</a> and the HLS manifest as a string.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dash</span></code> attribute is a container object (<code class="docutils literal notranslate"><span class="pre">cmafham.models.DASH</span></code>) consisting of the <a class="reference external" href="https://github.com/sangwonl/python-mpegdash/blob/a9f5e78f6400328e269f655e5df45e37d990a6e3/mpegdash/nodes.py#L737">MPEGDASH object</a> and the DASH manifest as a string.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">presentation</span></code> attribute contains the <a class="reference external" href="/Users/sreese/Documents/Personal/code/python_cmafham/docs/_build/html/cmafham.html#cmafham.models.Presentation">Presentation object</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the &#39;m3u8.model.M3U8&#39; object of the HLS representation.</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">hls</span><span class="o">.</span><span class="n">m3u8</span><span class="p">))</span>
+<span class="c1"># the HLS manifest as a string</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">hls</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span>
+
+<span class="c1"># the &#39;mpegdash.nodes.MPEGDASH&#39; object of the DASH representation.</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">dash</span><span class="o">.</span><span class="n">mpd</span><span class="p">))</span>
+<span class="c1"># the DASH manifest as a string</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">dash</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span>
+
+<span class="c1"># the &#39;cmafham.models.Presentation&#39; object.</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">presentation</span><span class="p">))</span>
+<span class="c1"># &#39;Presentation&#39; object formatted to a string</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ham_obj</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-manifest-files">
+<h2>Creating manifest files<a class="headerlink" href="#creating-manifest-files" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cmafham</span>
+
+<span class="n">ham_obj</span> <span class="o">=</span> <span class="n">cmafham</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;http://videoserver.com/manifest.m3u8&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create manifest files for an HLS presentation.</span>
+<span class="n">ham_obj</span><span class="o">.</span><span class="n">render_hls</span><span class="p">()</span>
+
+<span class="c1"># Create manifest file for a DASH presentation.</span>
+<span class="n">ham_obj</span><span class="o">.</span><span class="n">render_dash</span><span class="p">()</span>
+
+<span class="c1"># Create a json file of a CMAF-HAM presentation.</span>
+<span class="n">ham_obj</span><span class="o">.</span><span class="n">render_ham</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">**</span> <span class="pre">&quot;HAM</span> <span class="pre">manifest&quot;</span> <span class="pre">files</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">imported/exported</span> <span class="pre">in</span> <span class="pre">JSON</span> <span class="pre">format.</span></code></p>
+<dl>
+<dt>For example:</dt><dd><div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;ham_version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;presentation&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;f513b96c-3be4-4337-acb5-5414ab2a513f&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;selection_sets&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;befb6403-6832-491d-a68c-ce4f15a83a6a&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;switching_sets&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;f0618e96-3e6d-4aeb-8bc0-e55c915847d8&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;track_type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;video&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;tracks&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;3a93fa61-d38d-4b62-9cbb-e76e4e10926f&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;codec&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;avc1.640028&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;duration&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">635.0</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;language&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;bandwidth&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">10377445</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;segments&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                    </span><span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_10000Kbps_Cbr_000000001.cmfv&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;duration&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">30.0</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/docs/examples/hls/example-1/bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_10000Kbps_Cbr_000000001.cmfv&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;byterange&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                </span><span class="s2">&quot;width&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1920</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;height&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1080</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;framerate&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">29.97</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;par&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;sar&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;scan_type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Avc_16x9_Sdr_1920x1080p_30Hz_10000Kbps_Cbr&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;base_uri&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/docs/examples/hls/example-1/&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;36c1db6e-bfa7-4737-9315-5524d702e22a&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;switching_sets&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;program_audio_0&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;track_type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;audio&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;tracks&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;program_audio_0&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;codec&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;avc1.640028&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;duration&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">635.0</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;language&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;und&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;segments&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                    </span><span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbps_000000001.cmfa&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;duration&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">30.0</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/docs/examples/hls/example-1/bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbps_000000001.cmfa&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;byterange&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                </span><span class="s2">&quot;sample_rate&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;channels&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;bandwidth&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;url_init&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/docs/examples/hls/example-1/bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbpsinit.cmfa&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bbb_sunflower_1080p_30fps_normal_Ott_Cmaf_Cmfc_Aac_He_96Kbps&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;base_uri&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/docs/examples/hls/example-1/&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">cmafham</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html">CmafHam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.InputManifestError"><code class="docutils literal notranslate"><span class="pre">InputManifestError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.MissingSegmentError"><code class="docutils literal notranslate"><span class="pre">MissingSegmentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.from_segments"><code class="docutils literal notranslate"><span class="pre">from_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#cmafham.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.ham">cmafham.ham</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.models">cmafham.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.utils">cmafham.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmafham.html#module-cmafham.cmaf">cmafham.cmaf</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-right" title="cmafham" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Shayne Reese.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

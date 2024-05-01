@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmafham &mdash; CmafHam 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            CmafHam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">cmafham</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CmafHam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmafham</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmafham</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CmafHam</span>
+<span class="sd">================================================================================</span>
+
+<span class="sd">A Python library for the parsing, manipulation and creation of</span>
+<span class="sd">HLS and DASH manifests using the CMAF &#39;Hypothetical Application Model&#39; as definied in ISO/IEC 23000-19.</span>
+
+<span class="sd">Inspired by the Common Media Library CMAF-HAM project:</span>
+<span class="sd">    * https://github.com/qualabs/common-media-library/tree/feature/cmaf-ham</span>
+
+<span class="sd">:copyright: (c) 2024 Shayne Reese.</span>
+<span class="sd">:license: MIT, see LICENSE for more details.</span>
+<span class="sd">:version: 0.0.1</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">.ham</span> <span class="kn">import</span> <span class="n">HAM</span><span class="p">,</span> <span class="n">HamMapper</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">HLS</span><span class="p">,</span> <span class="n">DASH</span>
+
+
+<div class="viewcode-block" id="InputManifestError">
+<a class="viewcode-back" href="../cmafham.html#cmafham.InputManifestError">[docs]</a>
+<span class="k">class</span> <span class="nc">InputManifestError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Exception to be raised when input is missing or for invalid manifest formats. &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="MissingSegmentError">
+<a class="viewcode-back" href="../cmafham.html#cmafham.MissingSegmentError">[docs]</a>
+<span class="k">class</span> <span class="nc">MissingSegmentError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Exception to be raised when segment files cannot be found or loaded properly. &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="load">
+<a class="viewcode-back" href="../cmafham.html#cmafham.load">[docs]</a>
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">manifest_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Create a &#39;HAM&#39; object from a uri/url.</span>
+
+<span class="sd">    :param str manifest_uri: file path or url of the manifest to use.</span>
+<span class="sd">    :returns: &#39;HAM&#39; of the source presentation containing the &#39;Presentation&#39;, &#39;HLS&#39;, and &#39;DASH&#39; objects.</span>
+<span class="sd">    :rtype: cmafham.ham.HAM</span>
+<span class="sd">    :raises InputManifestError: When an invalid file extension is given.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;.m3u8&quot;</span> <span class="ow">in</span> <span class="n">manifest_uri</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HamMapper</span><span class="o">.</span><span class="n">hls_to_ham</span><span class="p">(</span><span class="n">HLS</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">manifest_uri</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s2">&quot;.mpd&quot;</span> <span class="ow">in</span> <span class="n">manifest_uri</span><span class="p">:</span>
+        <span class="c1"># return HamMapper.dash_to_ham(DASH(uri=manifest_uri))</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Parsing from DASH is not implemented yet!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;.json&quot;</span> <span class="ow">in</span> <span class="n">manifest_uri</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HamMapper</span><span class="o">.</span><span class="n">ham_manifest</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">manifest_uri</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">InputManifestError</span><span class="p">(</span>
+        <span class="s2">&quot;Input manifest must be of type &#39;m3u8&#39; or &#39;mpd&#39;!&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="loads">
+<a class="viewcode-back" href="../cmafham.html#cmafham.loads">[docs]</a>
+<span class="k">def</span> <span class="nf">loads</span><span class="p">(</span>
+        <span class="n">manifest_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">hls_renditions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">hls_media</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">file_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Create a &#39;HAM&#39; object from string(s).</span>
+
+<span class="sd">    :param str manifest_string: string representation of manifest.</span>
+<span class="sd">    :param hls_renditions: strings of the HLS variant playlists, optional.</span>
+<span class="sd">    :type hls_renditions: list[str]</span>
+<span class="sd">    :param hls_media: strings of HLS media playlists, optional.</span>
+<span class="sd">    :type hls_media: list[str]</span>
+<span class="sd">    :param str file_uri: path to the media files.</span>
+<span class="sd">    :returns: Object model of the source presentation containing the CMAF &#39;Presentation&#39;, &#39;HLS&#39;, and &#39;DASH&#39; objects.</span>
+<span class="sd">    :rtype: cmafham.ham.HAM</span>
+<span class="sd">    :raises InputManifestError: When the manifest type can&#39;t be parsed or is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;#EXTM3U&quot;</span> <span class="ow">in</span> <span class="n">manifest_string</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Parsing from HLS strings is not implemented yet!&quot;</span><span class="p">)</span>
+        <span class="c1"># hls_obj = HLS(</span>
+        <span class="c1">#     string=manifest_string,</span>
+        <span class="c1">#     variants=hls_renditions,</span>
+        <span class="c1">#     media=hls_media)</span>
+        <span class="c1"># return HamMapper.hls_to_ham(hls_obj)</span>
+    <span class="k">if</span> <span class="s2">&quot;?xml version&quot;</span> <span class="ow">in</span> <span class="n">manifest_string</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Parsing from DASH strings is not implemented yet!&quot;</span><span class="p">)</span>
+        <span class="c1"># return HamMapper.dash_to_ham(string=manifest_string)</span>
+    <span class="k">if</span> <span class="s2">&quot;ham_version&quot;</span> <span class="ow">in</span> <span class="n">manifest_string</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HamMapper</span><span class="o">.</span><span class="n">ham_manifest</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">manifest_string</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">InputManifestError</span><span class="p">(</span>
+        <span class="s2">&quot;Input manifest type must be one of: (m3u8, mpd, json)&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_segments">
+<a class="viewcode-back" href="../cmafham.html#cmafham.from_segments">[docs]</a>
+<span class="k">def</span> <span class="nf">from_segments</span><span class="p">(</span><span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">    Create a &#39;HAM&#39; object based on the segment files.</span>
+
+<span class="sd">    :param str base_uri: base path location for segments.</span>
+<span class="sd">    :param segments: list of segment filenames.</span>
+<span class="sd">    :returns: A &#39;HAM&#39; object representing the media presentation.</span>
+<span class="sd">    :rtype: cmafham.ham.HAM</span>
+<span class="sd">    :raises MissingSegmentError: when segment files are missing or loading fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if not any((base_uri, segments)):</span>
+    <span class="c1">#     # no path or segment names, can&#39;t continue</span>
+    <span class="c1">#     raise MissingSegmentError(</span>
+    <span class="c1">#         &quot;Missing required arguement(s) &#39;base_uri&#39; or &#39;segments&#39;.&quot;)</span>
+    <span class="c1"># elif base_uri and not segments:</span>
+    <span class="c1">#     # path is given, but no filenames</span>
+    <span class="c1">#     segments = [f for f in os.listdir(base_uri) if os.path.isfile(f)]</span>
+    <span class="c1"># elif segments and not base_uri:</span>
+    <span class="c1">#     # filenames are provided with no location</span>
+    <span class="c1">#     base_uri = os.getcwd()</span>
+    <span class="c1"># # only relevant file types</span>
+    <span class="c1"># extensions = (&quot;mp4&quot;, &quot;fmp4&quot;, &quot;cmfa&quot;, &quot;cmfv&quot;, &quot;vtt&quot;)</span>
+    <span class="c1"># segments = [s for s in segments if any(ex in s for ex in extensions)]</span>
+    <span class="c1"># return HamMapper.segments_to_ham(base_uri=base_uri, segments=segments)</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Parsing from segments not implemented yet!&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Shayne Reese.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

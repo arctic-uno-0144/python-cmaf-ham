@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmafham.ham &mdash; CmafHam 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CmafHam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">cmafham</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CmafHam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../cmafham.html">cmafham</a></li>
+      <li class="breadcrumb-item active">cmafham.ham</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmafham.ham</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the core objects and functions to perform the parsing and mapping to the models.</span>
+
+<span class="sd">:copyright: (c) 2024 Shayne Reese.</span>
+<span class="sd">:license: MIT, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span> <span class="k">as</span> <span class="n">math_ceil</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">search</span>
+
+<span class="kn">from</span> <span class="nn">m3u8</span> <span class="kn">import</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">m3u8.model</span> <span class="kn">import</span> <span class="n">Segment</span> <span class="k">as</span> <span class="n">HlsSegment</span>
+<span class="kn">from</span> <span class="nn">m3u8.model</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">M3U8</span><span class="p">,</span>
+    <span class="n">Media</span><span class="p">,</span>
+    <span class="n">StreamInfo</span><span class="p">,</span>
+    <span class="n">Playlist</span><span class="p">,</span>
+    <span class="n">PlaylistList</span><span class="p">,</span>
+    <span class="n">MediaList</span><span class="p">,</span>
+    <span class="n">SegmentList</span><span class="p">,</span>
+    <span class="n">InitializationSection</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mpegdash.parser</span> <span class="kn">import</span> <span class="n">MPEGDASHParser</span>
+<span class="kn">from</span> <span class="nn">mpegdash.nodes</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MPEGDASH</span><span class="p">,</span>
+    <span class="n">Period</span><span class="p">,</span>
+    <span class="n">AdaptationSet</span><span class="p">,</span>
+    <span class="n">Representation</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.cmaf</span> <span class="kn">import</span> <span class="n">parse_cmaf_file</span><span class="p">,</span> <span class="n">CMAF</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Presentation</span><span class="p">,</span>
+    <span class="n">SwitchingSet</span><span class="p">,</span>
+    <span class="n">SelectionSet</span><span class="p">,</span>
+    <span class="n">AudioTrack</span><span class="p">,</span>
+    <span class="n">TextTrack</span><span class="p">,</span>
+    <span class="n">VideoTrack</span><span class="p">,</span>
+    <span class="n">Segment</span><span class="p">,</span>
+    <span class="n">HLS</span><span class="p">,</span>
+    <span class="n">DASH</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">gen_uuid</span><span class="p">,</span>
+    <span class="n">parse_codec</span><span class="p">,</span>
+    <span class="n">float_fr</span><span class="p">,</span>
+    <span class="n">remove_ext</span><span class="p">,</span>
+    <span class="n">get_path</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="HAM">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HAM">[docs]</a>
+<span class="k">class</span> <span class="nc">HAM</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Hypothetical Application Model&#39; object is the container of the CMAF &#39;Presentation&#39;, &#39;HLS&#39; and &#39;DASH&#39; objects.</span>
+
+<span class="sd">    :param presentation: The CMAF &#39;Presentation&#39; object representation of the media presentation.</span>
+<span class="sd">    :type presentation: cmafham.models.Presentation</span>
+<span class="sd">    :param hls_obj: the &#39;HLS&#39; wrapper object that contains the HLS presentation data.</span>
+<span class="sd">    :type hls_obj: cmafham.models.HLS</span>
+<span class="sd">    :param dash_obj: the &#39;DASH&#39; wrapper object that contains the DASH presentation data.</span>
+<span class="sd">    :type dash_obj: cmafham.models.DASH</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">presentation</span><span class="p">:</span> <span class="n">Presentation</span><span class="p">,</span>
+                 <span class="n">hls_obj</span><span class="p">:</span> <span class="n">HLS</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">dash_obj</span><span class="p">:</span> <span class="n">DASH</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">presentation</span> <span class="o">=</span> <span class="n">presentation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hls</span> <span class="o">=</span> <span class="n">hls_obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dash</span> <span class="o">=</span> <span class="n">dash_obj</span>
+        <span class="c1"># self.update()</span>
+
+<div class="viewcode-block" id="HAM.update">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HAM.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the missing object(s) from the CMAF &#39;Presentation&#39;. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hls</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hls</span> <span class="o">=</span> <span class="n">HamMapper</span><span class="o">.</span><span class="n">ham_to_hls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">presentation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dash</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dash</span> <span class="o">=</span> <span class="n">HamMapper</span><span class="o">.</span><span class="n">ham_to_dash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">presentation</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HAM.render_hls">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HAM.render_hls">[docs]</a>
+    <span class="k">def</span> <span class="nf">render_hls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the manifest files for the HLS presentation.</span>
+
+<span class="sd">        TODO: clean up the filename, possibly use other defaults or self.presentation.id.</span>
+
+<span class="sd">        :param str save_to: path to save the manifest files to, optional, defaults to cwd.</span>
+<span class="sd">        :param str filename: filename for the manifest, optional, defaults to &#39;main&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check and set the save path</span>
+        <span class="k">if</span> <span class="n">save_to</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">save_to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;.m3u8&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">+=</span> <span class="s2">&quot;.m3u8&quot;</span>
+            <span class="n">output_path</span> <span class="o">+=</span> <span class="n">filename</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">+=</span> <span class="s2">&quot;main.m3u8&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hls</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">media</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hls</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">media</span><span class="p">):</span>
+            <span class="c1"># create media playlist files...</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">plist</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hls</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">playlists</span><span class="p">):</span>
+            <span class="c1"># create playlist files...</span>
+            <span class="k">continue</span></div>
+
+
+<div class="viewcode-block" id="HAM.render_dash">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HAM.render_dash">[docs]</a>
+    <span class="k">def</span> <span class="nf">render_dash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a manifest file for the DASH presentation.</span>
+
+<span class="sd">        TODO: clean up the filename, possibly use other defaults or self.presentation.id</span>
+
+<span class="sd">        :param str save_to: location to save the manifest file, optional, defaults to cwd.</span>
+<span class="sd">        :param str filename: filename for the manifest, optional, defaults to &#39;main&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check and set the save path</span>
+        <span class="k">if</span> <span class="n">save_to</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">save_to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="c1"># verify extension and set filename</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;.mpd&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">+=</span> <span class="s2">&quot;.mpd&quot;</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">+</span> <span class="n">filename</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">+</span> <span class="s2">&quot;main.mpd&quot;</span>
+        <span class="c1"># write to the file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dash</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HAM.render_ham">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HAM.render_ham">[docs]</a>
+    <span class="k">def</span> <span class="nf">render_ham</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a json manifest file of the CMAF &#39;Presentation&#39;. &quot;&quot;&quot;</span>
+        <span class="c1"># check and set the save path</span>
+        <span class="k">if</span> <span class="n">save_to</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">save_to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="c1"># verify extension and set filename</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;.json&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+            <span class="n">output_path</span> <span class="o">+=</span> <span class="n">filename</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="c1"># write to the file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">manifest</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="HamMapper">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper">[docs]</a>
+<span class="k">class</span> <span class="nc">HamMapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    HLS &lt;--&gt; Presentation &lt;--&gt; DASH</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="HamMapper.hls_to_ham">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.hls_to_ham">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">hls_to_ham</span><span class="p">(</span><span class="n">hls_obj</span><span class="p">:</span> <span class="n">HLS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a &#39;HAM&#39; object from the &#39;HLS&#39; object.</span>
+
+<span class="sd">        :param hls_obj:  object representation of HLS manifest/presentation.</span>
+<span class="sd">        :type hls_obj: cmafham.models.HLS</span>
+<span class="sd">        :returns: HAM object containing the CMAF &#39;Presentation&#39;, &#39;HLS&#39;, and &#39;DASH&#39; representations.</span>
+<span class="sd">        :rtype: cmafham.ham.HAM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selection_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SelectionSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">audio_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">video_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># check for media</span>
+        <span class="k">if</span> <span class="n">hls_obj</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">media</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">media</span> <span class="ow">in</span> <span class="n">hls_obj</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">media</span><span class="p">:</span>
+                <span class="n">medialist</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">mbase_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">base_uri</span><span class="p">:</span>
+                    <span class="n">mbase_uri</span> <span class="o">=</span> <span class="n">media</span><span class="o">.</span><span class="n">base_uri</span>
+                    <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">uri</span><span class="p">:</span>
+                        <span class="n">medialist</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">media</span><span class="o">.</span><span class="n">base_uri</span><span class="o">+</span><span class="n">media</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;AUDIO&quot;</span><span class="p">:</span>
+                    <span class="n">tracks</span> <span class="o">=</span> <span class="p">[</span><span class="n">HlsTrackMapper</span><span class="o">.</span><span class="n">audio</span><span class="p">(</span>
+                        <span class="n">media</span><span class="o">=</span><span class="n">media</span><span class="p">,</span> <span class="n">base_uri</span><span class="o">=</span><span class="n">mbase_uri</span><span class="p">,</span><span class="n">audiolist</span><span class="o">=</span><span class="n">medialist</span><span class="p">,</span>
+                        <span class="n">playlists</span><span class="o">=</span><span class="n">hls_obj</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">playlists</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="n">tracks</span><span class="p">:</span>
+                        <span class="n">audio_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">SwitchingSet</span><span class="p">(</span>
+                                <span class="n">id_</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+                                <span class="n">track_type</span><span class="o">=</span><span class="s2">&quot;audio&quot;</span><span class="p">,</span>
+                                <span class="n">tracks</span><span class="o">=</span><span class="n">tracks</span><span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;SUBTITLES&quot;</span><span class="p">,</span> <span class="s2">&quot;CLOSED-CAPTIONS&quot;</span><span class="p">,</span> <span class="s2">&quot;TEXT&quot;</span><span class="p">):</span>
+                    <span class="n">tracks</span> <span class="o">=</span> <span class="p">[</span><span class="n">HlsTrackMapper</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                              <span class="n">media</span><span class="o">=</span><span class="n">media</span><span class="p">,</span>
+                              <span class="n">base_uri</span><span class="o">=</span><span class="n">mbase_uri</span><span class="p">,</span>
+                              <span class="n">playlist</span><span class="o">=</span><span class="n">medialist</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="n">tracks</span><span class="p">:</span>
+                        <span class="n">text_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">SwitchingSet</span><span class="p">(</span>
+                                <span class="n">id_</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+                                <span class="n">track_type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                                <span class="n">tracks</span><span class="o">=</span><span class="n">tracks</span><span class="p">)</span>
+                        <span class="p">)</span>
+        <span class="c1"># check the variant playlists</span>
+        <span class="k">if</span> <span class="n">hls_obj</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">playlists</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">playlist</span> <span class="ow">in</span> <span class="n">hls_obj</span><span class="o">.</span><span class="n">m3u8</span><span class="o">.</span><span class="n">playlists</span><span class="p">:</span>
+                <span class="n">vbase_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="n">playlist</span><span class="o">.</span><span class="n">base_uri</span><span class="p">:</span>
+                    <span class="n">vbase_uri</span> <span class="o">=</span> <span class="n">playlist</span><span class="o">.</span><span class="n">base_uri</span>
+                    <span class="n">variant</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">base_uri</span><span class="o">+</span><span class="n">playlist</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                <span class="n">tracks</span> <span class="o">=</span> <span class="p">[</span><span class="n">HlsTrackMapper</span><span class="o">.</span><span class="n">video</span><span class="p">(</span>
+                          <span class="n">playlist</span><span class="o">=</span><span class="n">playlist</span><span class="p">,</span>
+                          <span class="n">base_uri</span><span class="o">=</span><span class="n">vbase_uri</span><span class="p">,</span>
+                          <span class="n">variant</span><span class="o">=</span><span class="n">variant</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">tracks</span><span class="p">:</span>
+                    <span class="n">video_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">SwitchingSet</span><span class="p">(</span>
+                            <span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span>
+                            <span class="n">track_type</span><span class="o">=</span><span class="s2">&quot;video&quot;</span><span class="p">,</span>
+                            <span class="n">tracks</span><span class="o">=</span><span class="n">tracks</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="c1"># add any non empty sets</span>
+        <span class="k">for</span> <span class="n">swsets</span> <span class="ow">in</span> <span class="p">(</span><span class="n">video_sets</span><span class="p">,</span> <span class="n">audio_sets</span><span class="p">,</span> <span class="n">text_sets</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">swsets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">selection_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">SelectionSet</span><span class="p">(</span><span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span> <span class="n">switching_sets</span><span class="o">=</span><span class="n">swsets</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">HAM</span><span class="p">(</span>
+            <span class="n">presentation</span><span class="o">=</span><span class="n">Presentation</span><span class="p">(</span>
+                <span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span>
+                <span class="n">selection_sets</span><span class="o">=</span><span class="n">selection_sets</span>
+            <span class="p">),</span> 
+            <span class="n">hls_obj</span><span class="o">=</span><span class="n">hls_obj</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HamMapper.dash_to_ham">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.dash_to_ham">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dash_to_ham</span><span class="p">(</span><span class="n">dash_obj</span><span class="p">:</span> <span class="n">DASH</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a &#39;HAM&#39; object from the &#39;DASH&#39; object.</span>
+
+<span class="sd">        TODO: write functions to parse for each dash segment type(segment list, segment template, segment base..).</span>
+
+<span class="sd">        :param dash_obj:  &#39;DASH&#39; object of the media presentation.</span>
+<span class="sd">        :type dash_obj: cmafham.models.DASH</span>
+<span class="sd">        :returns: &#39;HAM&#39; object for the media presentation.</span>
+<span class="sd">        :rtype: cmafham.ham.HAM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># map the presentation here</span>
+        <span class="n">selection_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SelectionSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">audio_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">video_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">dash_obj</span><span class="o">.</span><span class="n">mpd</span><span class="p">:</span>
+            <span class="c1"># stick to single period for now</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="n">dash_obj</span><span class="o">.</span><span class="n">mpd</span><span class="o">.</span><span class="n">periods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">DashTrackMapper</span><span class="o">.</span><span class="n">iso_time</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">a_set</span> <span class="ow">in</span> <span class="n">period</span><span class="o">.</span><span class="n">adaptation_sets</span><span class="p">:</span>
+                <span class="c1"># check segment type...</span>
+                <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="n">a_set</span><span class="o">.</span><span class="n">representations</span><span class="p">:</span>
+                    <span class="n">track</span> <span class="o">=</span> <span class="n">DashTrackMapper</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">a_set</span><span class="p">,</span> <span class="n">rep</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">AudioTrack</span><span class="p">):</span>
+                        <span class="k">pass</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">TextTrack</span><span class="p">):</span>
+                        <span class="k">pass</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">VideoTrack</span><span class="p">):</span>
+                        <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">HAM</span><span class="p">(</span><span class="n">presentation</span><span class="o">=</span><span class="n">Presentation</span><span class="p">(</span>
+            <span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span>
+            <span class="n">selection_sets</span><span class="o">=</span><span class="n">selection_sets</span>
+            <span class="p">),</span>
+            <span class="n">dash_obj</span><span class="o">=</span><span class="n">dash_obj</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HamMapper.segments_to_ham">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.segments_to_ham">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">segments_to_ham</span><span class="p">(</span><span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">        Create a &#39;Presentation&#39; from CMAF encoded segments, then return a &#39;HAM&#39; object from that.</span>
+
+<span class="sd">        :param str base_uri: base path location for segments.</span>
+<span class="sd">        :param segments: list of segment filenames.</span>
+<span class="sd">        :returns: A &#39;HAM&#39; object representing the media presentation.</span>
+<span class="sd">        :rtype: cmafham.ham.HAM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parsed_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CMAF</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">subtitles</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">selection_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SelectionSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">audio_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">video_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+            <span class="c1"># parse the file data into CMAF components here</span>
+            <span class="c1"># currently only for single segments.</span>
+            <span class="k">if</span> <span class="s2">&quot;vtt&quot;</span> <span class="ow">in</span> <span class="n">segment</span><span class="p">:</span>
+                <span class="c1"># figure out how to parse the subtitle files...</span>
+                <span class="n">file_data</span> <span class="o">=</span> <span class="n">CmafSegmentMapper</span><span class="o">.</span><span class="n">subtitle</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">file_data</span><span class="p">:</span>
+                    <span class="n">subtitles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">file_data</span> <span class="o">=</span> <span class="n">parse_cmaf_file</span><span class="p">(</span><span class="n">base_uri</span><span class="o">+</span><span class="n">segment</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">file_data</span><span class="p">:</span>
+                    <span class="n">parsed_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+        <span class="c1"># evaluate the parsed files and subtitles here...</span>
+        <span class="k">return</span> <span class="n">HAM</span><span class="p">(</span>
+            <span class="n">presentation</span><span class="o">=</span><span class="n">Presentation</span><span class="p">(</span>
+                <span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span> <span class="n">selection_sets</span><span class="o">=</span><span class="n">selection_sets</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HamMapper.ham_manifest">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.ham_manifest">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">ham_manifest</span><span class="p">(</span><span class="n">uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HAM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a HAM object from a saved CMAF &#39;Presentation&#39; &#39;manifest&#39; file or string.</span>
+
+<span class="sd">        :param str uri: path to the manifest json file.</span>
+<span class="sd">        :param str string: string representation of the manifest.</span>
+<span class="sd">        :returns: HAM object for the media presentation.</span>
+<span class="sd">        :rtype: cmafham.ham.HAM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">uri</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">string</span><span class="p">:</span>
+            <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">manifest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">manifest</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">manifest</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;presentation&quot;</span><span class="p">):</span>
+            <span class="c1"># maybe print/log error, or raise exception..</span>
+            <span class="k">return</span> <span class="n">Presentation</span><span class="p">(</span><span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span> <span class="n">selection_sets</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">manifest</span> <span class="o">=</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">]</span>
+        <span class="c1"># create the &#39;SelectionSet&#39; objects for the &#39;Presentation&#39;.</span>
+        <span class="n">selection_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SelectionSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sel_set</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;selection_sets&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="c1"># create the &#39;SwitchingSet&#39; objects for the &#39;SelectionSet&#39;.</span>
+            <span class="n">switching_sets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sw_set</span> <span class="ow">in</span> <span class="n">sel_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;switching_sets&quot;</span><span class="p">):</span>
+                <span class="c1"># create &#39;Track&#39; objects for the &#39;SwitchingSet&#39; first.</span>
+                <span class="n">tracks</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="c1"># create the &#39;Segment&#39; objects for each track.</span>
+                    <span class="n">track</span><span class="p">[</span><span class="s2">&quot;segments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Segment</span><span class="p">(</span><span class="o">**</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segments&quot;</span><span class="p">,</span> <span class="p">[])]</span>
+                    <span class="k">if</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;track_type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
+                        <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioTrack</span><span class="p">(</span><span class="o">**</span><span class="n">track</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;track_type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                        <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextTrack</span><span class="p">(</span><span class="o">**</span><span class="n">track</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;track_type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span><span class="p">:</span>
+                        <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VideoTrack</span><span class="p">(</span><span class="o">**</span><span class="n">track</span><span class="p">))</span>
+                <span class="n">sw_set</span><span class="p">[</span><span class="s2">&quot;tracks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracks</span>
+                <span class="n">switching_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SwitchingSet</span><span class="p">(</span><span class="o">**</span><span class="n">sw_set</span><span class="p">))</span>
+            <span class="n">sel_set</span><span class="p">[</span><span class="s2">&quot;switching_sets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">switching_sets</span>
+            <span class="n">selection_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SelectionSet</span><span class="p">(</span><span class="o">**</span><span class="n">sel_set</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">HAM</span><span class="p">(</span>
+            <span class="n">presentaion</span><span class="o">=</span><span class="n">Presentation</span><span class="p">(</span>
+                <span class="n">id_</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">gen_uuid</span><span class="p">()),</span>
+                <span class="n">selection_sets</span><span class="o">=</span><span class="n">selection_sets</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HamMapper.ham_to_hls">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.ham_to_hls">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">ham_to_hls</span><span class="p">(</span><span class="n">presentation</span><span class="p">:</span> <span class="n">Presentation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HLS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Map the properties of a CMAF &#39;Presentation&#39; to an &#39;HLS&#39; object.</span>
+
+<span class="sd">        :param presentation: CMAF &#39;Presentation&#39; object for the media presentation.</span>
+<span class="sd">        :type presentation: cmafham.models.Presentation</span>
+<span class="sd">        :returns: &#39;HLS&#39; representation of the CMAF &#39;Presentation&#39;</span>
+<span class="sd">        :rtype: cmafham.models.Presentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">media_tracks</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">video_tracks</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sel_set</span> <span class="ow">in</span> <span class="n">presentation</span><span class="o">.</span><span class="n">selection_sets</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sw_set</span> <span class="ow">in</span> <span class="n">sel_set</span><span class="o">.</span><span class="n">switching_sets</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">tracks</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">track_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;audio&quot;</span><span class="p">):</span>
+                        <span class="n">media_tracks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sw_set</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">sw_set</span><span class="o">.</span><span class="n">track_type</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span><span class="p">:</span>
+                        <span class="n">video_tracks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sw_set</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+        <span class="n">media</span> <span class="o">=</span> <span class="n">HlsPresentationMapper</span><span class="o">.</span><span class="n">media</span><span class="p">(</span><span class="n">media_tracks</span><span class="p">)</span>
+        <span class="n">playlists</span> <span class="o">=</span> <span class="n">HlsPresentationMapper</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">video_tracks</span><span class="p">,</span> <span class="n">media</span><span class="p">)</span>
+        <span class="n">multivariant</span> <span class="o">=</span> <span class="n">HlsPresentationMapper</span><span class="o">.</span><span class="n">manifest</span><span class="p">(</span><span class="n">playlists</span><span class="p">,</span> <span class="n">media</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HLS</span><span class="p">(</span><span class="n">m3u8_obj</span><span class="o">=</span><span class="n">multivariant</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HamMapper.ham_to_dash">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HamMapper.ham_to_dash">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">ham_to_dash</span><span class="p">(</span><span class="n">presentation</span><span class="p">:</span> <span class="n">Presentation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DASH</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Map the properties of a CMAF &#39;Presentation&#39; to a &#39;DASH&#39; object. &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="HlsTrackMapper">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsTrackMapper">[docs]</a>
+<span class="k">class</span> <span class="nc">HlsTrackMapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Class for the mapping of HLS variant stream properties to CMAF &#39;Track&#39; objects .&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="HlsTrackMapper.audio">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsTrackMapper.audio">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">audio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+              <span class="n">media</span><span class="p">:</span> <span class="n">Media</span><span class="p">,</span>
+              <span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+              <span class="n">audiolist</span><span class="p">:</span> <span class="n">M3U8</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">playlists</span><span class="p">:</span> <span class="n">PlaylistList</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Map the properties of &#39;M3U8&#39; objects to a CMAF &#39;AudioTrack&#39; object.</span>
+
+<span class="sd">        TODO: parse sample rate and bandwidth.</span>
+
+<span class="sd">        :param media: HLS EXT-X-MEDIA data.</span>
+<span class="sd">        :type media: m3u8.model.Media</span>
+<span class="sd">        :param str base_uri: base uri path for the files, optional.</span>
+<span class="sd">        :param audiolist: HLS manifest of audio data, optional.</span>
+<span class="sd">        :type audiolist: m3u8.model.M3U8</span>
+<span class="sd">        :param playlists: list of variant playlists, optional.</span>
+<span class="sd">        :type playlists: m3u8.model.PlaylistList</span>
+<span class="sd">        :returns: CMAF audio track object.</span>
+<span class="sd">        :rtype: cmafham.models.AudioTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">init_seg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Segment</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">media</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span> <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">channels</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_duration</span><span class="p">(</span><span class="n">audiolist</span><span class="p">)</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_audio_codec</span><span class="p">(</span><span class="n">media</span><span class="p">,</span> <span class="n">playlists</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">audiolist</span> <span class="ow">and</span> <span class="n">audiolist</span><span class="o">.</span><span class="n">segment_map</span><span class="p">:</span>
+            <span class="c1"># what to do if len of segment_map is &gt; 1</span>
+            <span class="n">init_seg</span> <span class="o">=</span> <span class="n">audiolist</span><span class="o">.</span><span class="n">segment_map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">base_uri</span> <span class="o">+</span> <span class="n">audiolist</span><span class="o">.</span><span class="n">segment_map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">uri</span>
+        <span class="k">if</span> <span class="n">audiolist</span> <span class="ow">and</span> <span class="n">audiolist</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="n">segments</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_segment_builder</span><span class="p">(</span><span class="n">audiolist</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">base_uri</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_uri</span><span class="p">:</span>
+            <span class="n">base_uri</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AudioTrack</span><span class="p">(</span>
+            <span class="n">id_</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+            <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
+            <span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="n">segments</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span>
+            <span class="n">url_init</span><span class="o">=</span><span class="n">init_seg</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">remove_ext</span><span class="p">(</span><span class="n">media</span><span class="o">.</span><span class="n">uri</span><span class="p">),</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">base_uri</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HlsTrackMapper.text">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsTrackMapper.text">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+             <span class="n">media</span><span class="p">:</span> <span class="n">Media</span><span class="p">,</span>
+             <span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+             <span class="n">playlist</span><span class="p">:</span> <span class="n">M3U8</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Maps the properties of HLS subtitles to a CMAF &#39;TextTrack&#39; object.</span>
+
+<span class="sd">        :param media: HLS EXT-X-MEDIA data.</span>
+<span class="sd">        :type media: m3u8.model.Media</span>
+<span class="sd">        :param str base_uri: base uri path for the files. (optional)</span>
+<span class="sd">        :param playlist: HLS media playlist. (optional)</span>
+<span class="sd">        :type playlist: m3u8.model.M3U8</span>
+<span class="sd">        :returns: CMAF text track object of subtitles.</span>
+<span class="sd">        :rtype: cmafham.models.TextTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Segment</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">playlist</span> <span class="ow">and</span> <span class="n">playlist</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="n">segments</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_segment_builder</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">base_uri</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_duration</span><span class="p">(</span><span class="n">playlist</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_uri</span><span class="p">:</span>
+            <span class="n">base_uri</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TextTrack</span><span class="p">(</span>
+            <span class="n">id_</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+            <span class="n">codec</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_text_codec</span><span class="p">(</span><span class="n">media</span><span class="p">),</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="n">media</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="n">segments</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">remove_ext</span><span class="p">(</span><span class="n">media</span><span class="o">.</span><span class="n">uri</span><span class="p">),</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">base_uri</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HlsTrackMapper.video">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsTrackMapper.video">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">video</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+              <span class="n">playlist</span><span class="p">:</span> <span class="n">Playlist</span><span class="p">,</span>
+              <span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+              <span class="n">variant</span><span class="p">:</span> <span class="n">M3U8</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VideoTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Map the properties of M3U8 objects to a CMAF &#39;VideoTrack&#39; object.</span>
+<span class="sd">        </span>
+<span class="sd">        :param playlist: variant playlist data from multivariant playlist.</span>
+<span class="sd">        :type playlist: m3u8.model.Playlist</span>
+<span class="sd">        :param str base_uri: base uri path for the files. (optional)</span>
+<span class="sd">        :param variant: HLS media playlist. (optional)</span>
+<span class="sd">        :type variant: m3u8.model.M3U8</span>
+<span class="sd">        :returns: CMAF video track object</span>
+<span class="sd">        :rtype: cmafham.models.VideoTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">bandwidth</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Segment</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_duration</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span>
+        <span class="n">video_codec</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_video_codec</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">codecs</span><span class="p">)</span>
+        <span class="n">fr</span> <span class="o">=</span> <span class="n">float_fr</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">frame_rate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">variant</span> <span class="ow">and</span> <span class="n">variant</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="n">segments</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_segment_builder</span><span class="p">(</span><span class="n">variant</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">base_uri</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">resolution</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">:</span>
+                <span class="n">bandwidth</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_uri</span><span class="p">:</span>
+            <span class="n">base_uri</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">VideoTrack</span><span class="p">(</span>
+            <span class="n">id_</span><span class="o">=</span><span class="n">gen_uuid</span><span class="p">(),</span>
+            <span class="n">codec</span><span class="o">=</span><span class="n">video_codec</span><span class="p">,</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">,</span>
+            <span class="n">bandwidth</span><span class="o">=</span><span class="n">bandwidth</span><span class="p">,</span>
+            <span class="n">segments</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
+            <span class="n">framerate</span><span class="o">=</span><span class="n">fr</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">remove_ext</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">uri</span><span class="p">),</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">base_uri</span>
+        <span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_segment_builder</span><span class="p">(</span>
+            <span class="n">hls_segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">HlsSegment</span><span class="p">],</span>
+            <span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Segment</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Builds CMAF &#39;Segment&#39; objects from a list of &#39;HlsSegment&#39; objects</span>
+
+<span class="sd">        :param hls_segments:  list of HLS segments.</span>
+<span class="sd">        :type hls_segments: list[m3u8.model.Segment]</span>
+<span class="sd">        :param str base_uri: base uri path for the files. (optional)</span>
+<span class="sd">        :returns: CMAF &#39;Segments&#39; for the Track</span>
+<span class="sd">        :rtype: list[cmafham.models.Segment]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Segment</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">hls_segments</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">base_uri</span><span class="p">:</span>
+                <span class="n">s_url</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">base_uri</span> <span class="o">+</span> <span class="n">seg</span><span class="o">.</span><span class="n">uri</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s_url</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">uri</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">duration</span> <span class="k">if</span> <span class="n">seg</span><span class="o">.</span><span class="n">duration</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Segment</span><span class="p">(</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="n">seg</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
+                    <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">,</span>
+                    <span class="n">url</span><span class="o">=</span><span class="n">s_url</span><span class="p">,</span>
+                    <span class="n">byterange</span><span class="o">=</span><span class="n">seg</span><span class="o">.</span><span class="n">byterange</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">segments</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_duration</span><span class="p">(</span><span class="n">playlist</span><span class="p">:</span> <span class="n">M3U8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate total presentation duration from the segment durations</span>
+
+<span class="sd">        :param playlist: HLS media playlist</span>
+<span class="sd">        :type playlist: m3u8.model.M3U8</span>
+<span class="sd">        :returns: full media duration</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dur_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">playlist</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">playlist</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">seg</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+                    <span class="n">dur_s</span> <span class="o">+=</span> <span class="n">seg</span><span class="o">.</span><span class="n">duration</span>
+        <span class="k">return</span> <span class="n">dur_s</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_video_codec</span><span class="p">(</span><span class="n">codec_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the video codec &quot;&quot;&quot;</span>
+        <span class="n">codecs</span> <span class="o">=</span> <span class="n">parse_codec</span><span class="p">(</span><span class="n">codec_string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">codecs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codecs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">codec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">codec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_audio_codec</span><span class="p">(</span><span class="n">media</span><span class="p">:</span> <span class="n">Media</span><span class="p">,</span> <span class="n">playlists</span><span class="p">:</span> <span class="n">PlaylistList</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse the codec for the given media by checking the Playlists</span>
+
+<span class="sd">        :param media: HLS EXT-X-MEDIA data.</span>
+<span class="sd">        :type media: m3u8.model.Media</span>
+<span class="sd">        :param playlists:  list of playlists.</span>
+<span class="sd">        :type playlists: m3u8.model.PlaylistList</span>
+<span class="sd">        :returns: the audio codec present if parsed, otherwise empty string</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">plist</span> <span class="ow">in</span> <span class="n">playlists</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">plist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">codecs</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">plist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">audio</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">plist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">audio</span> <span class="o">==</span> <span class="n">media</span><span class="o">.</span><span class="n">group_id</span><span class="p">:</span>
+                <span class="n">codecs</span> <span class="o">=</span> <span class="n">parse_codec</span><span class="p">(</span><span class="n">plist</span><span class="o">.</span><span class="n">stream_info</span><span class="o">.</span><span class="n">codecs</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">codecs</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codecs</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">codec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="n">codec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_text_codec</span><span class="p">(</span><span class="n">media</span><span class="p">:</span> <span class="n">Media</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Rough determination of caption/subtitle codec </span>
+<span class="sd">            **would need to examine segments to determine 608 vs 708</span>
+
+<span class="sd">        :param media: HLS EXT-X-MEDIA data.</span>
+<span class="sd">        :type media: m3u8.model.Media</span>
+<span class="sd">        :returns: Codec of subtitles, presence of closed captions, or empty string</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">codec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">media</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CLOSED-CAPTIONS&quot;</span> <span class="ow">or</span> <span class="n">media</span><span class="o">.</span><span class="n">instream_id</span><span class="p">:</span>
+            <span class="n">codec</span> <span class="o">=</span> <span class="s2">&quot;embedded&quot;</span>
+        <span class="k">elif</span> <span class="n">media</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;SUBTITLES&quot;</span><span class="p">:</span>
+            <span class="n">codec</span> <span class="o">=</span> <span class="s2">&quot;wvtt&quot;</span>
+        <span class="k">elif</span> <span class="n">media</span><span class="o">.</span><span class="n">uri</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">in</span> <span class="n">media</span><span class="o">.</span><span class="n">uri</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;m3u8&quot;</span><span class="p">,</span> <span class="s2">&quot;vtt&quot;</span><span class="p">)):</span>
+                <span class="n">codec</span> <span class="o">=</span> <span class="s2">&quot;wvtt&quot;</span>
+        <span class="k">return</span> <span class="n">codec</span></div>
+
+
+
+<div class="viewcode-block" id="HlsPresentationMapper">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper">[docs]</a>
+<span class="k">class</span> <span class="nc">HlsPresentationMapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">    Class for mapping CMAF &#39;Presentation&#39; data to an &#39;HLS&#39; object. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="HlsPresentationMapper.media">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.media">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">media</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+              <span class="n">tracks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">AudioTrack</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">TextTrack</span><span class="p">]]</span>
+              <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediaList</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Maps AudioTrack or TextTrack into HLS EXT-X-MEDIA data.</span>
+
+<span class="sd">        :param tracks: media track data.</span>
+<span class="sd">        :type tracks: list[AudioTrack] or list[TextTrack]</span>
+<span class="sd">        :returns: M3U8 media data</span>
+<span class="sd">        :rtype: m3u8.model.MediaList</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">media_list</span><span class="p">:</span> <span class="n">MediaList</span> <span class="o">=</span> <span class="n">MediaList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">AudioTrack</span><span class="p">):</span>
+                <span class="n">media_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">audio</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">TextTrack</span><span class="p">):</span>
+                <span class="n">media_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="c1"># init the uri attr if not empty</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">media_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">media_list</span><span class="o">.</span><span class="n">uri</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">media_list</span></div>
+
+
+<div class="viewcode-block" id="HlsPresentationMapper.audio">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.audio">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">audio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">track</span><span class="p">:</span> <span class="n">AudioTrack</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Media</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create audio &#39;m3u8.model.Media&#39; objects</span>
+
+<span class="sd">        :param track: audio track object</span>
+<span class="sd">        :type track: cmafham.models.AudioTrack</span>
+<span class="sd">        :returns: m3u8 media object</span>
+<span class="sd">        :rtype: m3u8.model.Media</span>
+
+<span class="sd">        TODO: possibly set other attr&#39;s with defaults, ie. &#39;default&#39;, &#39;autoselect&#39;, &#39;name&#39;...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+        <span class="k">return</span> <span class="n">Media</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;AUDIO&quot;</span><span class="p">,</span>
+            <span class="n">group_id</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="n">channels</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">base_uri</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HlsPresentationMapper.text">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.text">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">track</span><span class="p">:</span> <span class="n">TextTrack</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Media</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create CLOSED-CAPTION or SUBTITLE &#39;m3u8.model.Media&#39; objects</span>
+
+<span class="sd">        :param track: subtitle/closed caption data</span>
+<span class="sd">        :type track: cmafham.models.TextTrack</span>
+<span class="sd">        :returns: subtitle/closed caption media data</span>
+<span class="sd">        :rtype: m3u8.model.Media</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="s2">&quot;CLOSED-CAPTIONS&quot;</span> <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">codec</span> <span class="o">==</span> <span class="s2">&quot;embedded&quot;</span> <span class="k">else</span> <span class="s2">&quot;SUBTITLES&quot;</span>
+        <span class="k">return</span> <span class="n">Media</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">_type</span><span class="p">,</span>
+            <span class="n">group_id</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">base_uri</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HlsPresentationMapper.video">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.video">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">video</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">VideoTrack</span><span class="p">],</span> <span class="n">media</span><span class="p">:</span> <span class="n">MediaList</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlaylistList</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create &#39;m3u8.model.Playlist&#39; objects for video.</span>
+
+<span class="sd">        :param tracks: list of video tracks.</span>
+<span class="sd">        :type tracks: list[VideoTrack]</span>
+<span class="sd">        :param media: list of media objects.</span>
+<span class="sd">        :type media: m3u8.model.MediaList</span>
+<span class="sd">        :returns: list of variant playlists</span>
+<span class="sd">        :rtype: m3u8.model.PlaylistList</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">playlists</span><span class="p">:</span> <span class="n">PlaylistList</span> <span class="o">=</span> <span class="n">PlaylistList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.m3u8&quot;</span>
+            <span class="c1"># create stream_info</span>
+            <span class="n">stream_info</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">media</span><span class="p">:</span>
+                <span class="c1"># TODO: need to verify the media matches this playlist...</span>
+                <span class="k">if</span> <span class="n">m</span><span class="p">:</span>    
+                    <span class="n">stream_info</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stream_info</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">playlists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Playlist</span><span class="p">(</span>
+                    <span class="n">uri</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">stream_info</span><span class="o">=</span><span class="n">stream_info</span><span class="p">,</span>
+                    <span class="n">media</span><span class="o">=</span><span class="n">media</span><span class="p">,</span>
+                    <span class="n">base_uri</span><span class="o">=</span><span class="n">track</span><span class="o">.</span><span class="n">base_uri</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">playlists</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_stream_info</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">VideoTrack</span><span class="p">,</span> <span class="n">track_media</span><span class="p">:</span> <span class="n">Media</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamInfo</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the &#39;StreamInfo&#39; object for a variant playlist.</span>
+
+<span class="sd">        :param track: video track object.</span>
+<span class="sd">        :type track: cmafham.models.VideoTrack</span>
+<span class="sd">        :param track_media: variant media object.</span>
+<span class="sd">        :type track_media: m3u8.model.Media</span>
+<span class="sd">        :returns: stream info object for the variant playlist.</span>
+<span class="sd">        :rtype: m3u8.model.StreamInfo</span>
+
+<span class="sd">        TODO: need to account for audio/caption media in the input</span>
+<span class="sd">            (from StreamInfo.__init__)</span>
+<span class="sd">            bandwidth = kwargs.get(&quot;bandwidth&quot;)</span>
+<span class="sd">            closed_captions = kwargs.get(&quot;closed_captions&quot;)</span>
+
+<span class="sd">            # possibly track.id ?</span>
+<span class="sd">            program_id = kwargs.get(&quot;program_id&quot;)</span>
+
+<span class="sd">            resolution = kwargs.get(&quot;resolution&quot;)</span>
+<span class="sd">            codecs = kwargs.get(&quot;codecs&quot;)</span>
+<span class="sd">            audio = kwargs.get(&quot;audio&quot;)</span>
+<span class="sd">            video = kwargs.get(&quot;video&quot;)</span>
+<span class="sd">            subtitles = kwargs.get(&quot;subtitles&quot;)</span>
+<span class="sd">            frame_rate = kwargs.get(&quot;frame_rate&quot;)</span>
+
+<span class="sd">            # could parse this from codec?</span>
+<span class="sd">            video_range = kwargs.get(&quot;video_range&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># media would also determine the</span>
+        <span class="c1"># audio/subtitles/closed_captions params</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;bandwidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">bandwidth</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">codec</span><span class="p">:</span>
+            <span class="c1"># need to parse media to get audio codec..</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;codecs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">track</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;resolution&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">track</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">framerate</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;frame_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">framerate</span>
+        <span class="k">return</span> <span class="n">StreamInfo</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HlsPresentationMapper.manifest">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.manifest">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">manifest</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                 <span class="n">playlists</span><span class="p">:</span> <span class="n">PlaylistList</span><span class="p">,</span>
+                 <span class="n">media</span><span class="p">:</span> <span class="n">MediaList</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">M3U8</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create and assemble the &#39;m3u8.model.M3U8&#39; for the data.</span>
+
+<span class="sd">        TODO: possibly set defaults for version etc.; use &#39;flag&#39; attrs to determine any other neccesary options could be necesary if coming from dash/ham to enable certain features...</span>
+
+<span class="sd">        :param playlists: variant playlists.</span>
+<span class="sd">        :type playlists: m3u8.model.PlaylistList</span>
+<span class="sd">        :param media: hls media information.</span>
+<span class="sd">        :type media: m3u8.model.MediaList</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m3u8_obj</span> <span class="o">=</span> <span class="n">M3U8</span><span class="p">()</span>
+        <span class="n">m3u8_obj</span><span class="o">.</span><span class="n">playlists</span> <span class="o">=</span> <span class="n">playlists</span>
+        <span class="n">m3u8_obj</span><span class="o">.</span><span class="n">media</span> <span class="o">=</span> <span class="n">media</span>
+        <span class="n">m3u8_obj</span><span class="o">.</span><span class="n">is_variant</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># set any other attributes here</span>
+        <span class="k">return</span> <span class="n">m3u8_obj</span></div>
+
+
+<div class="viewcode-block" id="HlsPresentationMapper.variant">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.HlsPresentationMapper.variant">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">variant</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                <span class="n">track</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AudioTrack</span><span class="p">,</span> <span class="n">TextTrack</span><span class="p">,</span> <span class="n">VideoTrack</span><span class="p">],</span>
+                <span class="n">playlist</span><span class="p">:</span> <span class="n">Playlist</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">media</span><span class="p">:</span> <span class="n">Media</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">M3U8</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a &#39;m3u8.model.M3U8&#39; object for media/variant playlist, to create a manifest file...</span>
+
+<span class="sd">        :param track: CMAF Track data</span>
+<span class="sd">        :type track: cmafham.models.AudioTrack or cmafham.models.TextTrack or cmafham.models.VideoTrack</span>
+<span class="sd">        :param playlist: HLS EXT-X-STREAM-INF data. (optional)</span>
+<span class="sd">        :type playlist: m3u8.model.Playlist</span>
+<span class="sd">        :param media: HLS EXT-X-MEDIA data. (optional)</span>
+<span class="sd">        :type media: m3u8.model.Media</span>
+<span class="sd">        :returns: media playlist &#39;M3U8&#39; object.</span>
+<span class="sd">        :rtype: m3u8.model.M3U8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">variant</span> <span class="o">=</span> <span class="n">M3U8</span><span class="p">()</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="n">SegmentList</span> <span class="o">=</span> <span class="n">SegmentList</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_segment_builder</span><span class="p">(</span><span class="n">seg</span><span class="p">,</span> <span class="n">track</span><span class="o">.</span><span class="n">base_uri</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">AudioTrack</span><span class="p">)</span> <span class="ow">and</span> <span class="n">track</span><span class="o">.</span><span class="n">url_init</span><span class="p">:</span>
+            <span class="n">variant</span><span class="o">.</span><span class="n">segment_map</span> <span class="o">=</span> <span class="p">[</span><span class="n">InitializationSection</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">url_init</span><span class="p">)]</span>
+        <span class="c1"># add other data...</span>
+        <span class="k">return</span> <span class="n">variant</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_segment_builder</span><span class="p">(</span><span class="n">segment</span><span class="p">:</span> <span class="n">Segment</span><span class="p">,</span> <span class="n">base_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HlsSegment</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the &#39;HlsSegment&#39;s from the &#39;Segment&#39; data</span>
+<span class="sd">        </span>
+<span class="sd">        :param segment:  CMAF segment object</span>
+<span class="sd">        :type segment: cmafham.models.Segment</span>
+<span class="sd">        :param str base_uri: base uri path for the files. (optional) </span>
+<span class="sd">        :returns: HLS segment object</span>
+<span class="sd">        :rtype: m3u8.model.Segment</span>
+
+<span class="sd">        TODO: need to re-think how to handle this,has to be able to come from dash</span>
+<span class="sd">              can&#39;t re-write segment file names, because only for manifest manipulation at this point...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_uri</span><span class="p">:</span>
+            <span class="n">base_uri</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">(</span><span class="n">segment</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HlsSegment</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">segment</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">segment</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span>
+            <span class="n">base_uri</span><span class="o">=</span><span class="n">base_uri</span><span class="p">,</span>
+            <span class="n">byterange</span><span class="o">=</span><span class="n">segment</span><span class="o">.</span><span class="n">byterange</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DashSegmentParser">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashSegmentParser">[docs]</a>
+<span class="k">class</span> <span class="nc">DashSegmentParser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">    Class to parse data from different types of DASH manifest segment types,</span>
+<span class="sd">    to return the data in a uniform way for the &#39;DashTrackMapper&#39; functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DashSegmentParser.base">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashSegmentParser.base">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">base</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse segment_base data, format and return.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="DashSegmentParser.template">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashSegmentParser.template">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">template</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse segment_template data, format and return.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="DashSegmentParser.list">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashSegmentParser.list">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse segment_list data, format and return.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DashTrackMapper">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper">[docs]</a>
+<span class="k">class</span> <span class="nc">DashTrackMapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">    Class for mapping &#39;MPEGDASH&#39; objects to CMAF &#39;Track&#39; objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DashTrackMapper.map">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper.map">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+            <span class="n">adaptation</span><span class="p">:</span> <span class="n">AdaptationSet</span><span class="p">,</span>
+            <span class="n">representation</span><span class="p">:</span> <span class="n">Representation</span><span class="p">,</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">AudioTrack</span><span class="p">,</span> <span class="n">TextTrack</span><span class="p">,</span> <span class="n">VideoTrack</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Master track mapping function, determines the type and employs the appropriate mapper and returns the assembled track.</span>
+
+<span class="sd">        :param adaptation: adaptation set object.</span>
+<span class="sd">        :type adaptation: mpegdash.nodes.AdaptationSet</span>
+<span class="sd">        :param representation: representation object.</span>
+<span class="sd">        :type representation: mpegdash.nodes.Representation</span>
+<span class="sd">        :param duration: DASH period duration.</span>
+<span class="sd">        :returns: CMAF track object if parsed, else None.</span>
+<span class="sd">        :rtype: AudioTrack or TextTrack or VideoTrack or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">track_type</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_track_type</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">track_type</span> <span class="o">==</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">audio</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">track_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">track_type</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_dash_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">adaptation</span><span class="p">:</span> <span class="n">AdaptationSet</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="n">Representation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Determine the DASH segment type to parse properly.</span>
+<span class="sd">        </span>
+<span class="sd">        :param adaptation: adaptation set object.</span>
+<span class="sd">        :type adaptation: mpegdash.nodes.AdaptationSet</span>
+<span class="sd">        :param representation: representation object.</span>
+<span class="sd">        :type representation: mpegdash.nodes.Representation</span>
+<span class="sd">        :returns: Nothing yet...</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">adaptation</span><span class="o">.</span><span class="n">segment_lists</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DashSegmentParser</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">adaptation</span><span class="o">.</span><span class="n">segment_templates</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DashSegmentParser</span><span class="o">.</span><span class="n">template</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">adaptation</span><span class="o">.</span><span class="n">segment_bases</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DashSegmentParser</span><span class="o">.</span><span class="n">base</span><span class="p">(</span><span class="n">adaptation</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DashTrackMapper.audio">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper.audio">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">audio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">data3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create an &#39;AudioTrack&#39; from the data.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        :param data3: placeholder parameter.        </span>
+<span class="sd">        :returns: Audio track object</span>
+<span class="sd">        :rtype: cmafham.models.AudioTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AudioTrack</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DashTrackMapper.text">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper.text">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">data3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create an &#39;TextTrack&#39; from the data.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        :param data3: placeholder parameter.</span>
+<span class="sd">        :returns: Text track object</span>
+<span class="sd">        :rtype: cmafham.models.TextTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TextTrack</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DashTrackMapper.video">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper.video">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">video</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">data3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VideoTrack</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create an &#39;VideoTrack&#39; from the data.</span>
+
+<span class="sd">        :param data1: placeholder parameter.</span>
+<span class="sd">        :param data2: placeholder parameter.</span>
+<span class="sd">        :param data3: placeholder parameter.</span>
+<span class="sd">        :returns: Video track object</span>
+<span class="sd">        :rtype: cmafham.models.VideoTrack</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VideoTrack</span><span class="p">()</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_track_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                    <span class="n">adaptation</span><span class="p">:</span> <span class="n">AdaptationSet</span><span class="p">,</span>
+                    <span class="n">representation</span><span class="p">:</span> <span class="n">Representation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use the adaptation set, and representation data to determine the track type.</span>
+
+<span class="sd">        :param adaptation:  Adaptation set object.</span>
+<span class="sd">        :type adaptation: mpegdash.nodes.AdaptationSet</span>
+<span class="sd">        :param representation: track representation object</span>
+<span class="sd">        :type representation: mpegdash.nodes.Representation</span>
+<span class="sd">        :returns: string of the track type (&quot;audio&quot;, &quot;text&quot;, &quot;video&quot;) or None</span>
+<span class="sd">        :rtype: str | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">adaptation</span><span class="o">.</span><span class="n">mime_type</span><span class="p">:</span>
+            <span class="c1"># parse by mime type..</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_mime_type</span><span class="p">(</span><span class="n">adaptation</span><span class="o">.</span><span class="n">mime_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">representation</span><span class="o">.</span><span class="n">codecs</span><span class="p">:</span>
+            <span class="c1"># parse by codec..</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">representation</span><span class="o">.</span><span class="n">audio_sampling_rate</span><span class="p">:</span>
+            <span class="c1"># probably wouldnt be in video/text sets?</span>
+            <span class="k">return</span> <span class="s2">&quot;audio&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_segment_builder</span><span class="p">(</span>
+            <span class="n">adaptation</span><span class="p">:</span> <span class="n">AdaptationSet</span><span class="p">,</span>
+            <span class="n">representation</span><span class="p">:</span> <span class="n">Representation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Segment</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a CMAF &#39;Segment&#39; object from an adaptation set and its representation data.</span>
+
+<span class="sd">        :param adaptation: adaptation set object.</span>
+<span class="sd">        :type adaptation: mpegdash.nodes.AdaptationSet</span>
+<span class="sd">        :param representation:  track representation object.</span>
+<span class="sd">        :type representation: mpegdash.nodes.Representation</span>
+<span class="sd">        :returns: CMAF &#39;Segment&#39;s for the presentation if parsed, else None.</span>
+<span class="sd">        :rtype: list[Segment] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="n">Segment</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_mime_type</span><span class="p">(</span><span class="n">type_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse the track type from the mime type string.</span>
+
+<span class="sd">        TODO:  improve to include parsing of more complex strings.</span>
+<span class="sd">        </span>
+<span class="sd">        TODO: return more meaningful data in the future..</span>
+
+<span class="sd">        :param str type_str: mime type string.</span>
+<span class="sd">        :returns: track type string (&quot;audio&quot;, &quot;text&quot;, &quot;video&quot;) or empty string</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;audio&quot;</span> <span class="ow">in</span> <span class="n">type_str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;audio&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;video&quot;</span> <span class="ow">in</span> <span class="n">type_str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;video&quot;</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span> <span class="ow">in</span> <span class="n">type_str</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;application&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="s2">&quot;text&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="DashTrackMapper.iso_time">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.DashTrackMapper.iso_time">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">iso_time</span><span class="p">(</span><span class="n">time_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return an ISO 8601 time string as a float value in seconds.</span>
+
+<span class="sd">        :param str time_str: ISO-8601 formatted time string from DASH manifest ex. (&quot;PT10M34.533S&quot;).</span>
+<span class="sd">        :returns: time as a float value in seconds.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([\.\,\d]+)H&#39;</span><span class="p">,</span> <span class="n">time_str</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([\.\,\d]+)M&#39;</span><span class="p">,</span> <span class="n">time_str</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([\.\,\d]+)S&#39;</span><span class="p">,</span> <span class="n">time_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">h</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">):</span>
+            <span class="n">hour</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">time</span> <span class="o">+=</span> <span class="p">(</span><span class="n">hour</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">):</span>
+            <span class="n">minute</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">time</span> <span class="o">+=</span> <span class="p">(</span><span class="n">minute</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">):</span>
+            <span class="n">sec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">time</span> <span class="o">+=</span> <span class="n">sec</span>
+        <span class="k">return</span> <span class="n">time</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CmafSegmentMapper">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.CmafSegmentMapper">[docs]</a>
+<span class="k">class</span> <span class="nc">CmafSegmentMapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; NOT IMPLEMENTED!</span>
+<span class="sd">    Class to map CMAF file iso box data into CMAF-HAM model format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CmafSegmentMapper.map">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.CmafSegmentMapper.map">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SwitchingSet</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Try to create and return CMAF &#39;SwitchingSet&#39;s for the given data.</span>
+<span class="sd">        Need to filter the data at this point...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CmafSegmentMapper.parse_tracks">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.CmafSegmentMapper.parse_tracks">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_tracks</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create CMAF &#39;Track&#39; objects from the file data.</span>
+<span class="sd">        Need to parse track type to determine the relevant data to parse. &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CmafSegmentMapper.create_swset">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.CmafSegmentMapper.create_swset">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_swset</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a CMAF &#39;SwitchingSet&#39; for a set of files.</span>
+<span class="sd">        Need to split the file box data into some subset of groups before this step most likely.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CmafSegmentMapper.subtitle">
+<a class="viewcode-back" href="../../cmafham.html#cmafham.ham.CmafSegmentMapper.subtitle">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">subtitle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Parse a single subtitle file? </span>
+<span class="sd">        TODO: Think of the best way to handle subtitles here, may need a second function to create the actual track...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Shayne Reese.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
