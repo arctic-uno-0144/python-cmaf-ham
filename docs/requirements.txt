@@ -6,3 +6,5 @@ idna==3.4
 certifi==2023.7.22
 requests==2.31.0
 mp4analyser==0.0.1
+Sphinx==7.3.6
+sphinx-rtd-theme==2.0.0
