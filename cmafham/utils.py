@@ -45,8 +45,6 @@ def load_file(file_uri: str) -> Union[io.BufferedReader, io.BytesIO, None]:
     :param str file_uri : str - url or path to file.
     :returns: file like object or nothing if unsucessful.
     :rtype: io.BufferedReader or io.BytesIO or None
-    
-    TODO: potentially replace with using the 'mp4analyser' parser..
     """
     if "http" in file_uri:
         head = requests.head(file_uri, timeout=20)
