@@ -1,10 +1,10 @@
 """
-This module contains the core objects and functions to perform the parsing and mapping to the models.
+This module contains the core objects and functions to
+perform the parsing and mapping to the models.
 
 :copyright: (c) 2024 Shayne Reese.
 :license: MIT, see LICENSE for more details.
 """
-
 import json
 from math import ceil as math_ceil
 from typing import Union, List
@@ -20,15 +20,13 @@ from m3u8.model import (
     PlaylistList,
     MediaList,
     SegmentList,
-    InitializationSection
-)
+    InitializationSection)
 from mpegdash.parser import MPEGDASHParser
 from mpegdash.nodes import (
     MPEGDASH,
     Period,
     AdaptationSet,
-    Representation
-)
+    Representation)
 
 from .cmaf import parse_cmaf_file, CMAF
 from .models import (
@@ -40,19 +38,18 @@ from .models import (
     VideoTrack,
     Segment,
     HLS,
-    DASH
-)
+    DASH)
 from .utils import (
     gen_uuid,
     parse_codec,
     float_fr,
     remove_ext,
-    get_path
-)
+    get_path)
 
 
 class HAM:
-    """ The 'Hypothetical Application Model' object is the container of the CMAF 'Presentation', 'HLS' and 'DASH' objects.
+    """ The 'Hypothetical Application Model' object is the container for
+    the CMAF 'Presentation', 'HLS' and 'DASH' objects.
 
     :param presentation: The CMAF 'Presentation' object representation of the media presentation.
     :type presentation: cmafham.models.Presentation
@@ -85,6 +82,8 @@ class HAM:
         :param str save_to: path to save the manifest files to, optional, defaults to cwd.
         :param str filename: filename for the manifest, optional, defaults to 'main'.
         """
+        if not self.hls:
+            return
         # check and set the save path
         if save_to:
             output_path = save_to
@@ -96,23 +95,25 @@ class HAM:
             output_path += filename
         else:
             output_path += "main.m3u8"
-        with open(output_path, "w") as f:
+        with open(output_path, "w+", encoding="utf-8") as f:
             f.write(self.hls.manifest)
-        for i, media in enumerate(self.hls.m3u8.media):
+        # for i, media in enumerate(self.hls.m3u8.media):
             # create media playlist files...
-            continue
-        for i, plist in enumerate(self.hls.m3u8.playlists):
+            # continue
+        # for i, plist in enumerate(self.hls.m3u8.playlists):
             # create playlist files...
-            continue
+            # continue
 
     def render_dash(self, save_to: str = None, filename: str = None) -> None:
         """ Create a manifest file for the DASH presentation.
 
-        TODO: clean up the filename, possibly use other defaults or self.presentation.id
+        TODO: clean up the filename, possibly use other defaults or self.presentation.id.
 
         :param str save_to: location to save the manifest file, optional, defaults to cwd.
         :param str filename: filename for the manifest, optional, defaults to 'main'.
         """
+        if not self.dash:
+            return
         # check and set the save path
         if save_to:
             output_path = save_to
@@ -126,11 +127,11 @@ class HAM:
         else:
             output_path = output_path + "main.mpd"
         # write to the file
-        with open(full_path, "w") as f:
+        with open(output_path, "w+", encoding="utf-8") as f:
             f.write(self.dash.manifest)
 
     def render_ham(self, save_to: str = None, filename: str = None) -> None:
-        """ Create a json manifest file of the CMAF 'Presentation'. """
+        """ Create a JSON manifest file of the CMAF 'Presentation'. """
         # check and set the save path
         if save_to:
             output_path = save_to
@@ -144,8 +145,8 @@ class HAM:
         else:
             output_path += f"{self.presentation.id}.json"
         # write to the file
-        with open(output_path, "w") as f:
-            json.dump(self.presentation.manifest, f, indent=2)
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(json.loads(self.presentation.manifest), f, indent=2)
 
 
 class HamMapper:
@@ -168,73 +169,65 @@ class HamMapper:
         # check for media
         if hls_obj.m3u8.media:
             for media in hls_obj.m3u8.media:
-                medialist = None
-                mbase_uri: str = ""
-                if media.base_uri:
-                    mbase_uri = media.base_uri
-                    if media.uri:
-                        medialist = load(media.base_uri+media.uri)
+                mbase_uri = media.base_uri if media.base_uri else ""
+                medialist = load(mbase_uri+media.uri)
                 if media.type == "AUDIO":
-                    tracks = [HlsTrackMapper.audio(
-                        media=media, base_uri=mbase_uri,audiolist=medialist,
-                        playlists=hls_obj.m3u8.playlists)]
-                    if tracks:
-                        audio_sets.append(
-                            SwitchingSet(
-                                id_=media.group_id,
-                                track_type="audio",
-                                tracks=tracks)
+                    atracks = [HlsTrackMapper.audio(
+                        media=media, base_uri=mbase_uri,
+                        audiolist=medialist,
+                        playlists=hls_obj.m3u8.playlists)
+                    ]
+                    audio_sets.append(
+                        SwitchingSet(
+                            id_=media.group_id,
+                            track_type="audio",
+                            tracks=atracks
                         )
+                    )
                 if media.type in ("SUBTITLES", "CLOSED-CAPTIONS", "TEXT"):
-                    tracks = [HlsTrackMapper.text(
+                    ttracks = [HlsTrackMapper.text(
                               media=media,
                               base_uri=mbase_uri,
                               playlist=medialist)]
-                    if tracks:
-                        text_sets.append(
-                            SwitchingSet(
-                                id_=media.group_id,
-                                track_type="text",
-                                tracks=tracks)
+                    text_sets.append(
+                        SwitchingSet(
+                            id_=media.group_id,
+                            track_type="text",
+                            tracks=ttracks
                         )
+                    )
         # check the variant playlists
         if hls_obj.m3u8.playlists:
             for playlist in hls_obj.m3u8.playlists:
-                vbase_uri: str = ""
-                if playlist.base_uri:
-                    vbase_uri = playlist.base_uri
-                    variant = load(playlist.base_uri+playlist.uri)
-                tracks = [HlsTrackMapper.video(
+                vbase_uri = playlist.base_uri if playlist.base_uri else ""
+                variant = load(playlist.base_uri+playlist.uri)
+                vtracks = [HlsTrackMapper.video(
                           playlist=playlist,
                           base_uri=vbase_uri,
                           variant=variant)]
-                if tracks:
-                    video_sets.append(
-                        SwitchingSet(
-                            id_=gen_uuid(),
-                            track_type="video",
-                            tracks=tracks
-                        )
-                    )
+                video_sets.append(
+                    SwitchingSet(
+                        id_=gen_uuid(),
+                        track_type="video",
+                        tracks=vtracks)
+                )
         # add any non empty sets
         for swsets in (video_sets, audio_sets, text_sets):
             if len(swsets) > 0:
                 selection_sets.append(
-                    SelectionSet(id_=gen_uuid(), switching_sets=swsets)
-                )
+                    SelectionSet(id_=gen_uuid(), switching_sets=swsets))
         return HAM(
             presentation=Presentation(
                 id_=gen_uuid(),
-                selection_sets=selection_sets
-            ), 
-            hls_obj=hls_obj
-        )
+                selection_sets=selection_sets),
+            hls_obj=hls_obj)
 
     @staticmethod
     def dash_to_ham(dash_obj: DASH) -> HAM:
         """ Create a 'HAM' object from the 'DASH' object.
 
-        TODO: write functions to parse for each dash segment type(segment list, segment template, segment base..).
+        TODO: write functions to parse for each dash segment type
+              (segment list, segment template, segment base..).
 
         :param dash_obj:  'DASH' object of the media presentation.
         :type dash_obj: cmafham.models.DASH
@@ -296,6 +289,10 @@ class HamMapper:
                 if file_data:
                     parsed_files.append(file_data)
         # evaluate the parsed files and subtitles here...
+        for sw_set in (audio_sets, text_sets, video_sets):
+            if len(sw_set) > 0:
+                selection_sets.append(
+                    SelectionSet(id_=gen_uuid(), switching_sets=sw_set))
         return HAM(
             presentation=Presentation(
                 id_=gen_uuid(), selection_sets=selection_sets
@@ -312,7 +309,7 @@ class HamMapper:
         :rtype: cmafham.ham.HAM
         """
         if uri:
-            with open(uri, "r") as f:
+            with open(uri, "r", encoding="utf-8") as f:
                 manifest = json.load(f)
         elif string:
             manifest = json.loads(string)
@@ -344,7 +341,7 @@ class HamMapper:
             sel_set["switching_sets"] = switching_sets
             selection_sets.append(SelectionSet(**sel_set))
         return HAM(
-            presentaion=Presentation(
+            presentation=Presentation(
                 id_=manifest.get("id", gen_uuid()),
                 selection_sets=selection_sets
             )
@@ -383,10 +380,10 @@ class HlsTrackMapper:
     """ Class for the mapping of HLS variant stream properties to CMAF 'Track' objects ."""
     @classmethod
     def audio(cls,
-              media: Media,
-              base_uri: str = "",
-              audiolist: M3U8 = None,
-              playlists: PlaylistList = None) -> AudioTrack:
+                      media: Media,
+                      base_uri: str = "",
+                      audiolist: M3U8 = None,
+                      playlists: PlaylistList = None) -> AudioTrack:
         """ Map the properties of 'M3U8' objects to a CMAF 'AudioTrack' object.
 
         TODO: parse sample rate and bandwidth.
@@ -427,9 +424,9 @@ class HlsTrackMapper:
 
     @classmethod
     def text(cls,
-             media: Media,
-             base_uri: str = "",
-             playlist: M3U8 = None) -> TextTrack:
+                   media: Media,
+                   base_uri: str = "",
+                   playlist: M3U8 = None) -> TextTrack:
         """ Maps the properties of HLS subtitles to a CMAF 'TextTrack' object.
 
         :param media: HLS EXT-X-MEDIA data.
@@ -458,9 +455,9 @@ class HlsTrackMapper:
 
     @classmethod
     def video(cls,
-              playlist: Playlist,
-              base_uri: str = "",
-              variant: M3U8 = None) -> VideoTrack:
+                     playlist: Playlist,
+                     base_uri: str = "",
+                     variant: M3U8 = None) -> VideoTrack:
         """ Map the properties of M3U8 objects to a CMAF 'VideoTrack' object.
         
         :param playlist: variant playlist data from multivariant playlist.
@@ -468,7 +465,7 @@ class HlsTrackMapper:
         :param str base_uri: base uri path for the files. (optional)
         :param variant: HLS media playlist. (optional)
         :type variant: m3u8.model.M3U8
-        :returns: CMAF video track object
+        :returns: CMAF video track object.
         :rtype: cmafham.models.VideoTrack
         """
         w, h = 0, 0
@@ -504,12 +501,12 @@ class HlsTrackMapper:
     def _segment_builder(
             hls_segments: list[HlsSegment],
             base_uri: str = None) -> list[Segment]:
-        """ Builds CMAF 'Segment' objects from a list of 'HlsSegment' objects
+        """ Builds CMAF 'Segment' objects from a list of 'HlsSegment' objects.
 
         :param hls_segments:  list of HLS segments.
         :type hls_segments: list[m3u8.model.Segment]
         :param str base_uri: base uri path for the files. (optional)
-        :returns: CMAF 'Segments' for the Track
+        :returns: CMAF 'Segments' for the Track.
         :rtype: list[cmafham.models.Segment]
         """
         segments: list[Segment] = []
@@ -532,9 +529,9 @@ class HlsTrackMapper:
     def _duration(playlist: M3U8) -> float:
         """ Calculate total presentation duration from the segment durations
 
-        :param playlist: HLS media playlist
+        :param playlist: HLS media playlist.
         :type playlist: m3u8.model.M3U8
-        :returns: full media duration
+        :returns: full media duration in seconds.
         :rtype: float
         """
         dur_s: float = 0.0
@@ -548,20 +545,20 @@ class HlsTrackMapper:
     def _video_codec(codec_string: str) -> str:
         """ Return the video codec """
         codecs = parse_codec(codec_string)
-        if codecs:
-            for codec in codecs:
-                if codec[0] == "video":
-                    return codec[1]
+        for codec in codecs:
+            if codec[0] == "video":
+                return codec[1]
+        return ""
 
     @staticmethod
     def _audio_codec(media: Media, playlists: PlaylistList) -> str:
-        """ Parse the codec for the given media by checking the Playlists
+        """ Parse the codec for the given media by checking the Playlists.
 
         :param media: HLS EXT-X-MEDIA data.
         :type media: m3u8.model.Media
         :param playlists:  list of playlists.
         :type playlists: m3u8.model.PlaylistList
-        :returns: the audio codec present if parsed, otherwise empty string
+        :returns: the audio codec present if parsed, otherwise empty string.
         :rtype: str
         """
         for plist in playlists:
@@ -569,20 +566,19 @@ class HlsTrackMapper:
                 continue
             if plist.stream_info.audio == media.group_id:
                 codecs = parse_codec(plist.stream_info.codecs)
-                if codecs:
-                    for codec in codecs:
-                        if codec[0] == "audio":
-                            return codec[1] 
+                for codec in codecs:
+                    if codec[0] == "audio":
+                        return codec[1]
         return ""
 
     @staticmethod
     def _text_codec(media: Media) -> str:
-        """ Rough determination of caption/subtitle codec 
-            **would need to examine segments to determine 608 vs 708
+        """ Rough determination of caption/subtitle codec.
+        **would need to examine segments to determine 608 vs 708
 
         :param media: HLS EXT-X-MEDIA data.
         :type media: m3u8.model.Media
-        :returns: Codec of subtitles, presence of closed captions, or empty string
+        :returns: Codec of subtitles, presence of closed captions, or empty string.
         :rtype: str
         """
         codec: str = ""
@@ -627,14 +623,14 @@ class HlsPresentationMapper:
 
     @classmethod
     def audio(cls, track: AudioTrack) -> Media:
-        """ Create audio 'm3u8.model.Media' objects
-
-        :param track: audio track object
-        :type track: cmafham.models.AudioTrack
-        :returns: m3u8 media object
-        :rtype: m3u8.model.Media
+        """ Create audio 'm3u8.model.Media' objects.
 
         TODO: possibly set other attr's with defaults, ie. 'default', 'autoselect', 'name'...
+        
+        :param track: audio track object.
+        :type track: cmafham.models.AudioTrack
+        :returns: m3u8 media object.
+        :rtype: m3u8.model.Media
         """
         if track.filename:
             filename = track.filename + ".m3u8"
@@ -651,11 +647,11 @@ class HlsPresentationMapper:
 
     @classmethod
     def text(cls, track: TextTrack) -> Media:
-        """ Create CLOSED-CAPTION or SUBTITLE 'm3u8.model.Media' objects
+        """ Create CLOSED-CAPTION or SUBTITLE 'm3u8.model.Media' objects.
 
-        :param track: subtitle/closed caption data
+        :param track: subtitle/closed caption data.
         :type track: cmafham.models.TextTrack
-        :returns: subtitle/closed caption media data
+        :returns: subtitle/closed caption media data.
         :rtype: m3u8.model.Media
         """
         if track.filename:
@@ -679,7 +675,7 @@ class HlsPresentationMapper:
         :type tracks: list[VideoTrack]
         :param media: list of media objects.
         :type media: m3u8.model.MediaList
-        :returns: list of variant playlists
+        :returns: list of variant playlists.
         :rtype: m3u8.model.PlaylistList
         """
         playlists: PlaylistList = PlaylistList()
@@ -708,30 +704,14 @@ class HlsPresentationMapper:
     def _stream_info(track: VideoTrack, track_media: Media) -> StreamInfo:
         """ Create the 'StreamInfo' object for a variant playlist.
 
+        TODO: need to account for audio/caption media in the input
+
         :param track: video track object.
         :type track: cmafham.models.VideoTrack
         :param track_media: variant media object.
         :type track_media: m3u8.model.Media
         :returns: stream info object for the variant playlist.
         :rtype: m3u8.model.StreamInfo
-
-        TODO: need to account for audio/caption media in the input
-            (from StreamInfo.__init__)
-            bandwidth = kwargs.get("bandwidth")
-            closed_captions = kwargs.get("closed_captions")
-
-            # possibly track.id ?
-            program_id = kwargs.get("program_id")
-
-            resolution = kwargs.get("resolution")
-            codecs = kwargs.get("codecs")
-            audio = kwargs.get("audio")
-            video = kwargs.get("video")
-            subtitles = kwargs.get("subtitles")
-            frame_rate = kwargs.get("frame_rate")
-
-            # could parse this from codec?
-            video_range = kwargs.get("video_range")
         """
         params: dict = {}
         # media would also determine the
