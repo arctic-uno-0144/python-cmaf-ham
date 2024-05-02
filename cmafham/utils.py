@@ -98,9 +98,9 @@ def parse_codec(codec_string: str) -> List[tuple]:
     """
     parsed: list = []
     if isinstance(codec_string, str):
-        video_codecs = ("avc", "hvc")
-        audio_codecs = ("mp4a")
-        text_codecs = ("wvtt")
+        video_codecs = ("avc", "hvc", "hevc", "AVC", "HVC", "HEVC")
+        audio_codecs = ("mp4a", "MP4A", "m4a", "M4A")
+        text_codecs = ("wvtt", "vtt", "WEBVTT", "WVTT", "VTT", "WebVTT)
         for codec in codec_string.split(","):
             if any(v in codec for v in video_codecs):
                 parsed.append(("video", codec))
