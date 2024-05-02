@@ -147,7 +147,7 @@ For example:
                     "tracks": [
                       {
                         "id": "program_audio_0",
-                        "codec": "avc1.640028",
+                        "codec": "mp4a.40.5",
                         "duration": 635.0,
                         "language": "und",
                         "segments": [
