@@ -6,7 +6,6 @@ CmafHam helper functions.
 """
 
 import os
-import json
 import re
 import io
 from uuid import uuid4
@@ -34,7 +33,7 @@ def get_manifest_string(manifest_uri: str) -> str:
         if res and res.text:
             return res.text
     if os.path.exists(manifest_uri):
-        with open(manifest_uri, "r") as file:
+        with open(manifest_uri, "r", encoding="utf-8") as file:
             return file.read()
     return ""
 
@@ -92,6 +91,8 @@ def float_fr(framerate: Union[float, int, str]) -> float:
 def parse_codec(codec_string: str) -> List[tuple]:
     """ Return the codec(s) and their type from a string.
 
+    TODO: Implement the 'codec_strings' parser module eventually for more meaningful data.
+
     :param str codec_string: mime type codec string.
     :returns: list of present codecs and their type.
     :rtype: list[tuple]
@@ -100,13 +101,13 @@ def parse_codec(codec_string: str) -> List[tuple]:
     if isinstance(codec_string, str):
         video_codecs = ("avc", "hvc", "hevc", "AVC", "HVC", "HEVC")
         audio_codecs = ("mp4a", "MP4A", "m4a", "M4A")
-        text_codecs = ("wvtt", "vtt", "WEBVTT", "WVTT", "VTT", "WebVTT)
+        text_codecs = ("wvtt", "vtt", "WEBVTT", "WVTT", "VTT", "WebVTT")
         for codec in codec_string.split(","):
             if any(v in codec for v in video_codecs):
                 parsed.append(("video", codec))
-            if any(a in codec for a in audio_codecs):
+            elif any(a in codec for a in audio_codecs):
                 parsed.append(("audio", codec))
-            if any(t in codec for t in text_codecs):
+            elif any(t in codec for t in text_codecs):
                 parsed.append(("text", codec))
     return parsed
 
@@ -123,7 +124,8 @@ def remove_ext(filename: str) -> str:
 
 
 def get_path(file_path: str = "") -> str:
-    """ Obtain the base path by removing the filename, otherwise, return the current dir.
+    """ Obtain the base path by removing the filename,
+    otherwise, return the current dir.
 
     :param str file_path: uri of the file
     :returns: base path to parent file, or cwd
@@ -135,4 +137,3 @@ def get_path(file_path: str = "") -> str:
         if res and res[0]:
             path = res[0]
     return path
-    
