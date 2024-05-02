@@ -5,7 +5,6 @@ This module parses CMAF encoded files for mapping to a CMAF Presentation.
 :copyright: (c) 2024 Shayne Reese.
 :license: MIT, see LICENSE for more details.
 """
-
 from mp4analyser.iso import Mp4File
 
 
@@ -34,10 +33,9 @@ class CMAF:
     Core container for CMAF file box data.
     
     TODO: Needs to be flexible for file type, and data types, etc.
-    
-    * init files contain more attribute data
-    * classify between init or media
-    * need to find a way to group media files within their init file group...
+    * init files contain more attribute data.
+    * classify between init or media.
+    * need to find a way to group media files within their init file group.
     """
     def __init__(self):
         pass
@@ -87,13 +85,15 @@ def parse_children(box) -> dict:
 
 def parse_cmaf_file(filename: str):
     """ NOT IMPLEMENTED! 
-    
+
     TODO: Think of the best way to do this, seems like the init files will be the only way to get the properties right.
-    
+
     TODO: work on getting the proper files aligned with the init file, probably parse all files, and then create a function to add matching content objects to an init object...
     """
     valid_types = ("mp4", "fmp4", "cmfv", "cmfa")
+    data = None
     if any(t in filename for t in valid_types):
         mp4 = Mp4File(filename)
         for box in mp4.child_boxes:
-            parse_children(box)
+            data = parse_children(box)
+    return
