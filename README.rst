@@ -5,7 +5,7 @@ CmafHam is a Python implementation of an `HLS`_/`DASH`_ parser for `CMAF`_ encod
 .. image:: ham.png
    :width: 800px
    :height: 440px
-   :scale: 50 %
+   :scale: 100 %
    :alt: The Hypothetical Application Model
    :align: center
 
